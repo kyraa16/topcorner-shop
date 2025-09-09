@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    <p>Nama: {{ name }}</p>
+    <p>NPM: {{ npm }}</p>
+    <p>Kelas: {{ class }}</p>
+
+    <h2>Daftar Produk</h2>
+    <ul>
+        {% for product in products %}
+            <li>
+                <strong>{{ product.name }}</strong> <br>
+                Harga: Rp {{ product.price }} <br>
+                Kategori: {{ product.get_category_display }} <br>
+                {% if product.thumbnail %}
+                    <img src="{{ product.thumbnail }}" width="100" alt="{{ product.name }}">
+                {% endif %}
+                <br><br>
+            </li>
+        {% empty %}
+            <li>Belum ada produk tersedia.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
