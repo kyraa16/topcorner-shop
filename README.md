@@ -6,6 +6,7 @@ URL Deployment : https://kadek-chandra-topcornershop.pbp.cs.ui.ac.id/
 ## Jelaskan bagaimana cara kamu mengimplementasikan checklist yang ada secara step-by-step 
 Saya mengimplementasikan tugas ini dengan memahami secara mendalam, mengikuti tutorial yang ada dengan perlahan, serta mencari informasi lebih lanjut di internet. Berikut tahapan yang saya lakukan:
 - [x] **Membuat sebuah proyek Django baru**
+
 Saya membuat direktori project baru bernama `topcorner-shop`. Membuat virtual environment dan bekerja di dalamnya untuk mengisolasi project saat ini dengan dependencies projek lainnya. Membuat berkas `requirements.txt`, dan menginstall dependencies yang diperlukan sesuai dengan yang ada pada `requirements.txt`. Membuat project Django bernama `topcorner_shop` dan mengatur konfigurasi environment variable. Saya membuat file `.env` dan `.env.prod` untuk konfigurasi production yang berisi kredensial database. Saya mengatur `SCHEMA=tugas_individu` untuk project ini. Lalu, modifikasi `settings.py` untuk menerapkan konfigurasi yang ada. 
 
 - [x] **Membuat aplikasi dengan nama main pada proyek tersebut**
