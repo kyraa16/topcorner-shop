@@ -1,8 +1,9 @@
 # Tugas Individu 2 : Implementasi Model-View-Template (MVT) pada Django
 Kadek Chandra Rasmi | 2406426473 | PBP E
-URL Deploy : https://kadek-chandra-topcornershop.pbp.cs.ui.ac.id/
+
+URL Deployment : https://kadek-chandra-topcornershop.pbp.cs.ui.ac.id/
  
-### Jelaskan bagaimana cara kamu mengimplementasikan checklist yang ada secara step-by-step 
+## Jelaskan bagaimana cara kamu mengimplementasikan checklist yang ada secara step-by-step 
 Saya mengimplementasikan tugas ini dengan memahami secara mendalam, mengikuti tutorial yang ada dengan perlahan, serta mencari informasi lebih lanjut di internet. Berikut tahapan yang saya lakukan:
 - [x] Membuat sebuah proyek Django baru
 
@@ -50,16 +51,16 @@ sehingga saar url `http://localhost:8000/` atau `https://kadek-chandra-topcorner
 
 Akses halaman PWS dan login ke dalamnya. Create new project dengan nama project `topcornershop`. Pada tab Environs, buka raw editor dan isi dengan konten pada `.env.prod` yang sudah dibuat sebelumnya untuk konfigurasi production. Tambahkan URL `kadek-chandra-topcornershop.pbp.cs.ui.ac.id` pada `ALLOWED_HOSTS` agar project Django dapat diakses melalui URL deployment PWS. Lakukan git add, commit, dan push. Lalu lakukan project command pada pws. Jika telah berhasil, buka URL deployment dan project django telah berjalan. 
 
-### Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html
+## Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html
 
 
-### Jelaskan peran settings.py dalam proyek Django!
+## Jelaskan peran settings.py dalam proyek Django!
 
 
-### Bagaimana cara kerja migrasi database di Django?
+## Bagaimana cara kerja migrasi database di Django?
 
 
-### Menurut Anda, dari semua framework yang ada, mengapa framework Django dijadikan permulaan pembelajaran pengembangan perangkat lunak?
+## Menurut Anda, dari semua framework yang ada, mengapa framework Django dijadikan permulaan pembelajaran pengembangan perangkat lunak?
 
 
-### Apakah ada feedback untuk asisten dosen tutorial 1 yang telah kamu kerjakan sebelumnya?
+## Apakah ada feedback untuk asisten dosen tutorial 1 yang telah kamu kerjakan sebelumnya?
