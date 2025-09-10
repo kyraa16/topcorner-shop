@@ -52,6 +52,8 @@ sehingga saar url `http://localhost:8000/` atau `https://kadek-chandra-topcorner
 Akses halaman PWS dan login ke dalamnya. Create new project dengan nama project `topcornershop`. Pada tab Environs, buka raw editor dan isi dengan konten pada `.env.prod` yang sudah dibuat sebelumnya untuk konfigurasi production. Tambahkan URL `kadek-chandra-topcornershop.pbp.cs.ui.ac.id` pada `ALLOWED_HOSTS` agar project Django dapat diakses melalui URL deployment PWS. Lakukan git add, commit, dan push. Lalu lakukan project command pada pws. Jika telah berhasil, buka URL deployment dan project django telah berjalan. 
 
 ## Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html
+<img width="2302" height="1388" alt="Bagan" src="https://github.com/user-attachments/assets/e7fb4c1f-6cbf-4cdd-952c-0ede95f0e109" />
+
 
 ## Jelaskan peran settings.py dalam proyek Django!
 
