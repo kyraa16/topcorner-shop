@@ -1,4 +1,4 @@
-<img width="1584" height="1208" alt="image" src="https://github.com/user-attachments/assets/0ae08a4f-aebf-4315-8a49-84b1b0e7ec1a" /># Tugas Individu 2 : Implementasi Model-View-Template (MVT) pada Django
+# Tugas Individu 2 : Implementasi Model-View-Template (MVT) pada Django
 Kadek Chandra Rasmi | 2406426473 | PBP E
 
 URL Deployment : https://kadek-chandra-topcornershop.pbp.cs.ui.ac.id/
