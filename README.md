@@ -47,7 +47,7 @@ urlpatterns = [
 ```
 sehingga saar url `http://localhost:8000/` atau `https://kadek-chandra-topcornershop.pbp.cs.ui.ac.id/` diakses, urlpatterns akan dicocokkan di tinggak project dan app. Jika cocok, akan menjalankan `show_main` yang akan mencari template `main.html`, memasukkan data context ke dalamnya dan mengirim balik ke browser.
 
-- [x]** Melakukan deployment ke PWS terhadap aplikasi yang sudah dibuat sehingga nantinya dapat diakses oleh teman-temanmu melalui Internet**
+- [x] **Melakukan deployment ke PWS terhadap aplikasi yang sudah dibuat sehingga nantinya dapat diakses oleh teman-temanmu melalui Internet**
 
 Akses halaman PWS dan login ke dalamnya. Create new project dengan nama project `topcornershop`. Pada tab Environs, buka raw editor dan isi dengan konten pada `.env.prod` yang sudah dibuat sebelumnya untuk konfigurasi production. Tambahkan URL `kadek-chandra-topcornershop.pbp.cs.ui.ac.id` pada `ALLOWED_HOSTS` agar project Django dapat diakses melalui URL deployment PWS. Lakukan git add, commit, dan push. Lalu lakukan project command pada pws. Jika telah berhasil, buka URL deployment dan project django telah berjalan. 
 
