@@ -1,27 +1,26 @@
-# Tugas Individu 2 : Implementasi Model-View-Template (MVT) pada Django
+<img width="1584" height="1208" alt="image" src="https://github.com/user-attachments/assets/0ae08a4f-aebf-4315-8a49-84b1b0e7ec1a" /># Tugas Individu 2 : Implementasi Model-View-Template (MVT) pada Django
 Kadek Chandra Rasmi | 2406426473 | PBP E
 
 URL Deployment : https://kadek-chandra-topcornershop.pbp.cs.ui.ac.id/
  
 ## Jelaskan bagaimana cara kamu mengimplementasikan checklist yang ada secara step-by-step 
 Saya mengimplementasikan tugas ini dengan memahami secara mendalam, mengikuti tutorial yang ada dengan perlahan, serta mencari informasi lebih lanjut di internet. Berikut tahapan yang saya lakukan:
-- [x] Membuat sebuah proyek Django baru
-
+- [x] **Membuat sebuah proyek Django baru**
 Saya membuat direktori project baru bernama `topcorner-shop`. Membuat virtual environment dan bekerja di dalamnya untuk mengisolasi project saat ini dengan dependencies projek lainnya. Membuat berkas `requirements.txt`, dan menginstall dependencies yang diperlukan sesuai dengan yang ada pada `requirements.txt`. Membuat project Django bernama `topcorner_shop` dan mengatur konfigurasi environment variable. Saya membuat file `.env` dan `.env.prod` untuk konfigurasi production yang berisi kredensial database. Saya mengatur `SCHEMA=tugas_individu` untuk project ini. Lalu, modifikasi `settings.py` untuk menerapkan konfigurasi yang ada. 
 
-- [x] Membuat aplikasi dengan nama main pada proyek tersebut
+- [x] **Membuat aplikasi dengan nama main pada proyek tersebut**
 
 Saya membuat aplikasi `main` dalam project `topcorner-shop` dengan menjalankan perintah `python manage.py startapp main`. Lalu menambahkan main ke dalam `INSTALLED_APPS` pada `settings.py`.
 
-- [x] Melakukan routing pada proyek agar dapat menjalankan aplikasi `main`
+- [x] **Melakukan routing pada proyek agar dapat menjalankan aplikasi `main`**
 
 Konfigurasi routing URL project dilakukan dengan memodifikasi `urls.py` pada direktori project `topcorner-shop`. Menambahkan `path('', include('main.urls')),` agar aplikasi `main` dapat diakses.
 
-- [x] Membuat model pada aplikasi `main` dengan nama `Product` dan memiliki atribut wajib
+- [x] **Membuat model pada aplikasi `main` dengan nama `Product` dan memiliki atribut wajib**
 
 Modifikasi berkas `models.py` dalam aplikasi `main`. Buat model `Product` yang akan merepresentasikan tabel di database. Implementasikan attribute wajib yang ditentukan pada tugas dengan tambahan attribute `stock`, `brand`, `rating`, `created_at` untuk memperlengkap fungsionalitas aplikasi nantinya. Seluruh attribute ini akan menjadi kolom pada tabel di database. Lakukan migrasi model dengan menjalankan perintah `python manage.py makemigrations`. Lalu terapakan migrasi ke dalam database lokal dengan perintah `python manage.py migrate`.
 
-- [x] Membuat sebuah fungsi pada `views.py` untuk dikembalikan ke dalam sebuah template HTML yang menampilkan nama aplikasi serta nama dan kelas kamu
+- [x] **Membuat sebuah fungsi pada `views.py` untuk dikembalikan ke dalam sebuah template HTML yang menampilkan nama aplikasi serta nama dan kelas kamu**
 
 Saya membuat fungsi `show_main` di `views.py` yang akan mengirimkan context berisi:
 ```
@@ -37,7 +36,7 @@ Saya menambahkan npm dan products untuk coba ditampilkan. Fungsi `show_main` aka
 
 Pada `main.html` dalam direktori `templates` pada app `main`, gunakan struktur kode Django untuk menampilkan data dengan menggunakan `{{ }}`. Variable dengan kurung kurawal ganda tersebut akan diganti dengan nilai yang sesuai berdasarkan `context` yang telah didefinisikan sebelumnya di `views.py`.
 
-- [x] Membuat sebuah routing pada `urls.py` aplikasi `main` untuk memetakan fungsi yang telah dibuat pada `views.py`
+- [x] **Membuat sebuah routing pada `urls.py` aplikasi `main` untuk memetakan fungsi yang telah dibuat pada `views.py`**
 
 Saya membuat file `urls.py` di dalam aplikasi main. Import fungsi `show_main` dan konfigurasi urlpatterns untuk memanggil view `show_main` seperti ini:
 ```
@@ -47,7 +46,7 @@ urlpatterns = [
 ```
 sehingga saar url `http://localhost:8000/` atau `https://kadek-chandra-topcornershop.pbp.cs.ui.ac.id/` diakses, urlpatterns akan dicocokkan di tinggak project dan app. Jika cocok, akan menjalankan `show_main` yang akan mencari template `main.html`, memasukkan data context ke dalamnya dan mengirim balik ke browser.
 
-- [x] Melakukan deployment ke PWS terhadap aplikasi yang sudah dibuat sehingga nantinya dapat diakses oleh teman-temanmu melalui Internet
+- [x]** Melakukan deployment ke PWS terhadap aplikasi yang sudah dibuat sehingga nantinya dapat diakses oleh teman-temanmu melalui Internet**
 
 Akses halaman PWS dan login ke dalamnya. Create new project dengan nama project `topcornershop`. Pada tab Environs, buka raw editor dan isi dengan konten pada `.env.prod` yang sudah dibuat sebelumnya untuk konfigurasi production. Tambahkan URL `kadek-chandra-topcornershop.pbp.cs.ui.ac.id` pada `ALLOWED_HOSTS` agar project Django dapat diakses melalui URL deployment PWS. Lakukan git add, commit, dan push. Lalu lakukan project command pada pws. Jika telah berhasil, buka URL deployment dan project django telah berjalan. 
 
