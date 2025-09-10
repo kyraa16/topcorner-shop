@@ -53,7 +53,6 @@ Akses halaman PWS dan login ke dalamnya. Create new project dengan nama project 
 
 ## Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html
 
-
 ## Jelaskan peran settings.py dalam proyek Django!
 
 `settings.py` berperan sebagai pusat konfigurasi project Django, berisi pengaturan seperti database, installed apps, middleware, template, static files, secret key, dan konfigurasi environment lainnya. Semua komponen Django berjalan mengikuti pengaturan yang diinginkan sesuai dengan isi dari `settings.py`. 
@@ -64,7 +63,8 @@ Migrasi database adalah cara Django mengubah struktur tabel sesuai dengan models
 
 ## Menurut Anda, dari semua framework yang ada, mengapa framework Django dijadikan permulaan pembelajaran pengembangan perangkat lunak?
 
-
-Penggunakan framework Django cocok digunakan untuk pengenalan pemrograman berbasis platform karena 
+Penggunakan framework Django cocok digunakan untuk pengenalan pemrograman berbasis platform karena sytnaxnya yang mudah, yaitu menggunakan bahasa `Python` yang sudah kami pelajari sebelumnya. Selain itu, konsep MVT pada Django sangat terstruktur dan mudah dipahami sehingga memudahkan pembelajaran. Django juga telah digunakan secara luas sehingga source untuk belajar mudah ditemukan. Django juga menyediakan banyak fitur bawaan seperti authentication, admin, dan lainnya. Fitur-fitur ini mempermudah pengembangan aplikasi, terutama bagi pemula.
 
 ## Apakah ada feedback untuk asisten dosen tutorial 1 yang telah kamu kerjakan sebelumnya?
+
+Tutorial 1 sebelumnya sudah sangat baik. Tidak ada kendala dan instruksi tutorial juga sudah sangat baik. Terima kasih kakak asdos!!
