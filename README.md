@@ -56,11 +56,15 @@ Akses halaman PWS dan login ke dalamnya. Create new project dengan nama project 
 
 ## Jelaskan peran settings.py dalam proyek Django!
 
+`settings.py` berperan sebagai pusat konfigurasi project Django, berisi pengaturan seperti database, installed apps, middleware, template, static files, secret key, dan konfigurasi environment lainnya. Semua komponen Django berjalan mengikuti pengaturan yang diinginkan sesuai dengan isi dari `settings.py`. 
 
 ## Bagaimana cara kerja migrasi database di Django?
 
+Migrasi database adalah cara Django mengubah struktur tabel sesuai dengan models. Tahap pertama dilakukan `makemigrations` untuk membuat file migrasi berdasarkan perubahan di `models.py`. Lalu, dilakukan `migrate` untuk menerapkan migrasi ke database sehingga tabel dibuat/diubah sesuai dengan model yang diinginkan. 
 
 ## Menurut Anda, dari semua framework yang ada, mengapa framework Django dijadikan permulaan pembelajaran pengembangan perangkat lunak?
 
+
+Penggunakan framework Django cocok digunakan untuk pengenalan pemrograman berbasis platform karena 
 
 ## Apakah ada feedback untuk asisten dosen tutorial 1 yang telah kamu kerjakan sebelumnya?
