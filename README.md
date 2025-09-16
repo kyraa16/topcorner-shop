@@ -3,9 +3,9 @@ Kadek Chandra Rasmi | 2406426473 | PBP E
 URL Deployment : https://kadek-chandra-topcornershop.pbp.cs.ui.ac.id/
 
 <details>
-<summary>Tugas Individu 2 : Implementasi Model-View-Template (MVT) pada Django</summary>
+<summary>Tugas 2 : Implementasi Model-View-Template (MVT) pada Django</summary>
  
-## Jelaskan bagaimana cara kamu mengimplementasikan checklist yang ada secara step-by-step 
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist yang ada secara step-by-step 
 Saya mengimplementasikan tugas ini dengan memahami secara mendalam, mengikuti tutorial yang ada dengan perlahan, serta mencari informasi lebih lanjut di internet. Berikut tahapan yang saya lakukan:
 - [x] **Membuat sebuah proyek Django baru**
 
@@ -53,7 +53,7 @@ sehingga saar url `http://localhost:8000/` atau `https://kadek-chandra-topcorner
 
 Akses halaman PWS dan login ke dalamnya. Create new project dengan nama project `topcornershop`. Pada tab Environs, buka raw editor dan isi dengan konten pada `.env.prod` yang sudah dibuat sebelumnya untuk konfigurasi production. Tambahkan URL `kadek-chandra-topcornershop.pbp.cs.ui.ac.id` pada `ALLOWED_HOSTS` agar project Django dapat diakses melalui URL deployment PWS. Lakukan git add, commit, dan push. Lalu lakukan project command pada pws. Jika telah berhasil, buka URL deployment dan project django telah berjalan. 
 
-## Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html
+### Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html
 <img width="2302" height="1388" alt="Bagan" src="https://github.com/user-attachments/assets/e7fb4c1f-6cbf-4cdd-952c-0ede95f0e109" />
 
 Alur request dan response pada Django :
@@ -64,19 +64,19 @@ Alur request dan response pada Django :
 5. View akan merender template HTML dengan data dari model. 
 6. Hasil render template akan menjadi HTTP Response dalam bentuk HTML. HTML ini dikirim kembali ke browser user untuk ditampilkan.
 
-## Jelaskan peran settings.py dalam proyek Django!
+### Jelaskan peran settings.py dalam proyek Django!
 
 `settings.py` berperan sebagai pusat konfigurasi project Django, berisi pengaturan seperti database, installed apps, middleware, template, static files, secret key, dan konfigurasi environment lainnya. Semua komponen Django berjalan mengikuti pengaturan yang diinginkan sesuai dengan isi dari `settings.py`. 
 
-## Bagaimana cara kerja migrasi database di Django?
+### Bagaimana cara kerja migrasi database di Django?
 
 Migrasi database adalah cara Django mengubah struktur tabel sesuai dengan models. Tahap pertama dilakukan `makemigrations` untuk membuat file migrasi berdasarkan perubahan di `models.py`. Lalu, dilakukan `migrate` untuk menerapkan migrasi ke database sehingga tabel dibuat/diubah sesuai dengan model yang diinginkan. 
 
-## Menurut Anda, dari semua framework yang ada, mengapa framework Django dijadikan permulaan pembelajaran pengembangan perangkat lunak?
+### Menurut Anda, dari semua framework yang ada, mengapa framework Django dijadikan permulaan pembelajaran pengembangan perangkat lunak?
 
 Penggunakan framework Django cocok digunakan untuk pengenalan pemrograman berbasis platform karena sytnaxnya yang mudah, yaitu menggunakan bahasa `Python` yang sudah kami pelajari sebelumnya. Selain itu, konsep MVT pada Django sangat terstruktur dan mudah dipahami sehingga memudahkan pembelajaran. Django juga telah digunakan secara luas sehingga source untuk belajar mudah ditemukan. Django juga menyediakan banyak fitur bawaan seperti authentication, admin, dan lainnya. Fitur-fitur ini mempermudah pengembangan aplikasi, terutama bagi pemula.
 
-## Apakah ada feedback untuk asisten dosen tutorial 1 yang telah kamu kerjakan sebelumnya?
+### Apakah ada feedback untuk asisten dosen tutorial 1 yang telah kamu kerjakan sebelumnya?
 
 Tutorial 1 sebelumnya sudah sangat baik. Tidak ada kendala dan instruksi tutorial juga sudah sangat baik. Terima kasih kakak asdos!!
 
