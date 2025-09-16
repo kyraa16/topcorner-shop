@@ -1,42 +1,51 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>{{ title }}</h1>
-<p>Nama: {{ name }}</p>
-<p>NPM: {{ npm }}</p>
-<p>Kelas: {{ class }}</p>
+  <h1>{{ title }}</h1>
+  <p>Nama: {{ name }}</p>
+  <p>NPM: {{ npm }}</p>
+  <p>Kelas: {{ class }}</p>
 
-{% comment %} Button Add Product {% endcomment %}
-<a href="{% url 'main:create_product' %}">
+  {# Button Add Product #}
+  <a href="{% url 'main:create_product' %}">
     <button>+ Add Product</button>
-</a>
+  </a>
 
+  <hr>
+  <h2>Daftar Produk</h2>
 
-<hr>
-<h2>Daftar Produk</h2>
+  {% if not products %}
+    <p>Belum ada data product.</p>
+  {% else %}
+    {% for product in products %}
+      <div>
+        <h2>
+          <a href="{% url 'main:show_product' product.id %}">
+            {{ product.name }}
+          </a>
+        </h2>
 
-{% if not products%}
-<p>Belum ada data product.</p>
-{% else %}
+        <p><b>{{ product.get_category_display }}</b></p>
 
-{% for product in products%}
-<div>
-    <h2><a href="{% url 'main:show_product' product.id %}">{{ product.name }}</a></h2>
-    {% comment %} <p>Harga: Rp {{ product.price }}</p> {% endcomment %}
+        {% if product.thumbnail %}
+          <img src="{{ product.thumbnail }}" width="200" alt="{{ product.name }}">
+          <br>
+        {% endif %}
 
-    <p><b>{{ product.get_category_display }}</b></p>
-    {% if product.thumbnail %}
-        <img src="{{ product.thumbnail }}" width="200" height="250" alt="{{ product.name }}">
-        <br />
-    {% endif %}
+        <p>Stok: {{ product.stock }}</p>
+        <p>Brand: {{ product.brand }}</p>
+        <p>Rating: {{ product.rating }}</p>
 
-    <p>{{ product.description }}</p>
-    <p>Stok: {{ product.stock }}</p>
-    <p>Brand: {{ product.brand }}</p>
-    <p>Rating: {{ product.rating }}</p>
-    <hr>
-</div>
-{% endfor %}
-{% endif %}
+        <p>{{ product.description|truncatewords:25 }}...</p>
+
+        <p>
+          <a href="{% url 'main:show_product' product.id %}">
+            <button>Details</button>
+          </a>
+        </p>
+        <hr>
+      </div>
+    {% endfor %}
+  {% endif %}
 
 {% endblock content %}
