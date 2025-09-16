@@ -136,13 +136,13 @@ CSRF_TRUSTED_ORIGINS = [
 7. Buat berkas baru dengan nama `product_detail.html` pada direktori `main/templates`. Gunakan block content dan extende `base.html`. Tampilkan detail informasi suatu product sesuai dengan parameter berupa id product yang digunakan pada url nya. Attribute produk ditampilkan menggunakan kurung kurawal ganda. contoh :  `{{ product.desciption }}`
 8. Jalankan project Django dan buka pada http://localhost:8000/
 9. Saya juga mencoba mengakses 4 URL berikut menggunakan Postman:  
-   1. Mengakses `http://localhost:8000/xml/`
+- Mengakses `http://localhost:8000/xml/`
 <img width="1987" height="1383" alt="image" src="https://github.com/user-attachments/assets/30987bf3-6ac4-4495-8f18-04b7041d1c33" />
-   2. Mengakses `http://localhost:8000/json/`
+- Mengakses `http://localhost:8000/json/`
 <img width="2019" height="1343" alt="image" src="https://github.com/user-attachments/assets/a2fbf69e-053c-44b8-a087-223c41ed664d" />
-   3. Mengakses `http://localhost:8000/xml/fade12d1-b255-466b-88c6-ff10dc8b673e/`
+- Mengakses `http://localhost:8000/xml/fade12d1-b255-466b-88c6-ff10dc8b673e/`
 <img width="2007" height="1016" alt="image" src="https://github.com/user-attachments/assets/3a02c85a-1fdf-46c4-b73a-eed91115c8c0" />
-   4. Mengakses `http://localhost:8000/json/fade12d1-b255-466b-88c6-ff10dc8b673e/`
+- Mengakses `http://localhost:8000/json/fade12d1-b255-466b-88c6-ff10dc8b673e/`
 <img width="1994" height="1030" alt="image" src="https://github.com/user-attachments/assets/5cc566dc-e2cf-446f-b8f9-c5d34bc0b870" />
 
 ### Apakah ada feedback untuk asdos di tutorial 2 yang sudah kalian kerjakan?
