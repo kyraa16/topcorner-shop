@@ -1,7 +1,9 @@
-# Tugas Individu 2 : Implementasi Model-View-Template (MVT) pada Django
 Kadek Chandra Rasmi | 2406426473 | PBP E
 
 URL Deployment : https://kadek-chandra-topcornershop.pbp.cs.ui.ac.id/
+
+<details>
+<summary>Tugas Individu 2 : Implementasi Model-View-Template (MVT) pada Django</summary>
  
 ## Jelaskan bagaimana cara kamu mengimplementasikan checklist yang ada secara step-by-step 
 Saya mengimplementasikan tugas ini dengan memahami secara mendalam, mengikuti tutorial yang ada dengan perlahan, serta mencari informasi lebih lanjut di internet. Berikut tahapan yang saya lakukan:
@@ -77,3 +79,9 @@ Penggunakan framework Django cocok digunakan untuk pengenalan pemrograman berbas
 ## Apakah ada feedback untuk asisten dosen tutorial 1 yang telah kamu kerjakan sebelumnya?
 
 Tutorial 1 sebelumnya sudah sangat baik. Tidak ada kendala dan instruksi tutorial juga sudah sangat baik. Terima kasih kakak asdos!!
+
+</details>
+
+<details>
+<summary>Tugas 3: Implementasi Form dan Data Delivery pada Django</summary>
+</details>
