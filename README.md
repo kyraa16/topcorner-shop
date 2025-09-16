@@ -1,9 +1,13 @@
-# Tugas Individu 2 : Implementasi Model-View-Template (MVT) pada Django
 Kadek Chandra Rasmi | 2406426473 | PBP E
 
 URL Deployment : https://kadek-chandra-topcornershop.pbp.cs.ui.ac.id/
+
+
+
+<details>
+<summary>Tugas 2 : Implementasi Model-View-Template (MVT) pada Django</summary>
  
-## Jelaskan bagaimana cara kamu mengimplementasikan checklist yang ada secara step-by-step 
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist yang ada secara step-by-step 
 Saya mengimplementasikan tugas ini dengan memahami secara mendalam, mengikuti tutorial yang ada dengan perlahan, serta mencari informasi lebih lanjut di internet. Berikut tahapan yang saya lakukan:
 - [x] **Membuat sebuah proyek Django baru**
 
@@ -51,7 +55,7 @@ sehingga saar url `http://localhost:8000/` atau `https://kadek-chandra-topcorner
 
 Akses halaman PWS dan login ke dalamnya. Create new project dengan nama project `topcornershop`. Pada tab Environs, buka raw editor dan isi dengan konten pada `.env.prod` yang sudah dibuat sebelumnya untuk konfigurasi production. Tambahkan URL `kadek-chandra-topcornershop.pbp.cs.ui.ac.id` pada `ALLOWED_HOSTS` agar project Django dapat diakses melalui URL deployment PWS. Lakukan git add, commit, dan push. Lalu lakukan project command pada pws. Jika telah berhasil, buka URL deployment dan project django telah berjalan. 
 
-## Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html
+### Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html
 <img width="2302" height="1388" alt="Bagan" src="https://github.com/user-attachments/assets/e7fb4c1f-6cbf-4cdd-952c-0ede95f0e109" />
 
 Alur request dan response pada Django :
@@ -62,18 +66,87 @@ Alur request dan response pada Django :
 5. View akan merender template HTML dengan data dari model. 
 6. Hasil render template akan menjadi HTTP Response dalam bentuk HTML. HTML ini dikirim kembali ke browser user untuk ditampilkan.
 
-## Jelaskan peran settings.py dalam proyek Django!
+### Jelaskan peran settings.py dalam proyek Django!
 
-`settings.py` berperan sebagai pusat konfigurasi project Django, berisi pengaturan seperti database, installed apps, middleware, template, static files, secret key, dan konfigurasi environment lainnya. Semua komponen Django berjalan mengikuti pengaturan yang diinginkan sesuai dengan isi dari `settings.py`. 
+`settings.py` berperan sebagai pusat konfigurasi project Django, berisi pengaturan seperti database, installed apps, middleware, template, static files, secret key, dan konfigurasi environment lainnya. Semua komponen Django berjalan mengikuti pengaturan yang diinginkan sesuai dengan isi dari `settings.py`.
 
-## Bagaimana cara kerja migrasi database di Django?
+### Bagaimana cara kerja migrasi database di Django?
 
 Migrasi database adalah cara Django mengubah struktur tabel sesuai dengan models. Tahap pertama dilakukan `makemigrations` untuk membuat file migrasi berdasarkan perubahan di `models.py`. Lalu, dilakukan `migrate` untuk menerapkan migrasi ke database sehingga tabel dibuat/diubah sesuai dengan model yang diinginkan. 
 
-## Menurut Anda, dari semua framework yang ada, mengapa framework Django dijadikan permulaan pembelajaran pengembangan perangkat lunak?
+### Menurut Anda, dari semua framework yang ada, mengapa framework Django dijadikan permulaan pembelajaran pengembangan perangkat lunak?
 
 Penggunakan framework Django cocok digunakan untuk pengenalan pemrograman berbasis platform karena sytnaxnya yang mudah, yaitu menggunakan bahasa `Python` yang sudah kami pelajari sebelumnya. Selain itu, konsep MVT pada Django sangat terstruktur dan mudah dipahami sehingga memudahkan pembelajaran. Django juga telah digunakan secara luas sehingga source untuk belajar mudah ditemukan. Django juga menyediakan banyak fitur bawaan seperti authentication, admin, dan lainnya. Fitur-fitur ini mempermudah pengembangan aplikasi, terutama bagi pemula.
 
-## Apakah ada feedback untuk asisten dosen tutorial 1 yang telah kamu kerjakan sebelumnya?
+### Apakah ada feedback untuk asisten dosen tutorial 1 yang telah kamu kerjakan sebelumnya?
 
 Tutorial 1 sebelumnya sudah sangat baik. Tidak ada kendala dan instruksi tutorial juga sudah sangat baik. Terima kasih kakak asdos!!
+
+</details>
+
+<details>
+<summary>Tugas 3: Implementasi Form dan Data Delivery pada Django</summary>
+
+### Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+Data delivery dibutuhkan sebagai proses yang menjadi jembatan antara data pada server dengan kebutuhan informasi di sisi client. Tanpa mekanisme data delivery, aplikasi di sisi pengguna tidak akan bisa mendapatkan informasi/data yang disimpan di backend.
+
+### Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+XML dan JSON adalah format untuk data delivery. XML (eXtensible Markup Language) menggunakan struktur berbasis tag mirip HTML. Data dibungkus dengan tag pembuka dan penutup sehingga bentuknya hierarkis dan fleksibel. Namun, kelemahannya adalah ukuran file yang lebih besar karena banyaknya tag, dan parsing data bisa lebih berat. Sedangkan JSON (JavaScript Object Notation) menggunakan struktur pasangan key-value yang ringkas dan sederhana. JSON berbentuk objek dan array, sehingga lebih mudah dibaca manusia dan langsung kompatibel dengan JavaScript serta banyak bahasa pemrograman modern. JSON tidak membutuhkan tag berulang, sehingga ukuran data lebih kecil dan proses parsing lebih cepat. XML unggul pada validasi data yang ketat, sementara JSON unggul pada formatnya yang sederhana dan cepat. 
+
+Menurut saya JSON lebih unggul dan memang terbukti JSON lebih populer digunakan. JSON lebih ringkas, mudah dipahami, parsing lebih cepat, dan sangat natural digunakan di ekosistem web modern. Hampir semua API RESTful saat ini menggunakan JSON sebagai format default, sementara XML mulai jarang dipakai kecuali pada sistem lama atau kebutuhan khusus. 
+
+### Jelaskan fungsi dari method `is_valid()` pada form Django dan mengapa kita membutuhkan method tersebut?
+Dalam Django, setiap form yang kita buat bertujuan untuk menerima input dari pengguna. Namun, data yang dimasukkan tidak selalu benar atau sesuai aturan. Bisa saja pengguna lupa mengisi data yang wajib diisi, memasukkan teks pada field angka, atau memilih opsi yang tidak tersedia. Di sinilah fungsi is_valid() berguna. 
+
+Method is_valid() digunakan untuk memeriksa apakah data yang dikirim melalui form memenuhi semua aturan validasi yang sudah ditentukan oleh field dalam form maupun validasi tambahan yang kita buat. Ketika dipanggil, Django akan menjalankan proses pemeriksaan untuk setiap field. Jika semua data valid, maka is_valid() mengembalikan True dan data tersebut akan disimpan ke dalam form.cleaned_data, siap digunakan atau disimpan ke database. Namun, jika ada data yang tidak valid, is_valid() mengembalikan False dan Django otomatis menyediakan informasi error melalui form.errors, sehingga kita bisa menampilkan pesan kesalahan kepada pengguna. Tanpa validasi ini, aplikasi bisa menerima data yang salah atau bahkan berbahaya, yang pada akhirnya dapat menimbulkan error, kerusakan data, atau celah keamanan.
+
+### Mengapa kita membutuhkan `csrf_token` saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan `csrf_token` pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+Ketika kita membuat form di Django, dibutuhkan penggunaan csrf_token. Token ini merupakan mekanisme perlindungan terhadap serangan yang dikenal sebagai CSRF atau Cross-Site Request Forgery. Serangan ini terjadi ketika seorang penyerang membuat sebuah halaman berbahaya yang diam-diam mengirim permintaan ke situs yang sedang kita gunakan, dengan memanfaatkan fakta bahwa browser korban masih menyimpan cookie autentikasi. Misalnya, tanpa disadari korban bisa saja diarahkan untuk melakukan perubahan password, mengirim data, atau bahkan melakukan transaksi, hanya karena ia sedang login di situs tersebut.
+
+Untuk mencegah hal itu, Django menyisipkan csrf_token ke dalam setiap form. Token ini bersifat unik untuk setiap sesi pengguna, sehingga server bisa memverifikasi bahwa permintaan yang masuk benar-benar berasal dari halaman sah, bukan dari sumber asing. Dengan kata lain, csrf_token bertindak sebagai tanda keamanan yang membuktikan bahwa form benar-benar dikirim dari aplikasi kita sendiri.
+
+Jika kita tidak menambahkan csrf_token, maka form yang menggunakan metode POST akan sangat rentan dieksploitasi. Penyerang dapat dengan mudah membuat permintaan palsu yang seolah-olah sah, dan server tidak punya cara untuk membedakan mana permintaan asli dan mana yang palsu.
+
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)
+Berikut langkah-langkah yang saya lakukan untuk mengimplementasikan checklist yang ada:
+1. Membuat form input data product. Buat berkas `forms.py` pada direktori `main` yang akan digunakan untuk membuat struktur form. Buat object ProductForm dengan fields yang berisi attribute dari model Product. 
+2. Pada views.py di direktori `main`.  Buat function untuk menambahkan produk baru dan untuk menampilkan product, yaitu function `create_product`, `show_product`, `show_product_xml`, `show_product_json`, `show_product_xml_by_id`, `show_product_json_by_id`. 
+3. Pada urls.py di direktori main. import seluruh function yang sudah kita buat di views.py sebelumnya. Lalu, set url path ke dalam variable urlpatterns menjadi seperti ini:
+```
+urlpatterns = [
+    path('', show_main, name='show_main'),
+    path('create-product/', crate_product, name='create_product'),
+    path('product/<str:id>/', show_product, name='show_product'),
+    path('xml/', show_products_xml, name='show_products_xml'),
+    path('json/', show_products_json, name='show_products_json'),
+    path('xml/<str:id>/', show_product_xml_by_id, name='show_product_xml_by_id'),
+    path('json/<str:id>/', show_product_json_by_id, name='show_product_json_by_id'),
+]
+
+```
+4. Update berkas main.html. extend `base.html` sebagai template dari keseluruhan page hmtl kita. Gunakan block content dan tambahkan elemen seperti button dan cetak daftar product jika ada data product. Saya membuat hyperlink pada nama produk, sehingga jika diklik akan mengarahkan ke halaman detail produk tersebut.
+
+`<h2><a href="{% url 'main:show_product' product.id %}">{{ product.name }}</a></h2>`
+
+6. Buat berkas baru dengan nama `create_product.html` pada direktori `main/templates` sebagai tampilan dari form yang sudah dibuat sebelumnya. Object form Django ditampilkan dalam bentuk tabel sehingga nantinya user bisa memberikan inputan untuk dikirim ke server menggunakan method POST. Digunakan pula `{% csrf_token %} ` sebagai token keamanan yang mencegah serangan CSRF. Tambahkan button submit dengan text `Add Product` 
+7. Karena kita menggunakan csrf token, buka `settings.py` pada root project dan tambahkan url deployment pws pada `CSRF_TRUSTED_ORIGINS` seperti ini:
+```
+CSRF_TRUSTED_ORIGINS = [
+    "https://kadek-chandra-topcornershop.pbp.cs.ui.ac.id"
+]
+```
+7. Buat berkas baru dengan nama `product_detail.html` pada direktori `main/templates`. Gunakan block content dan extende `base.html`. Tampilkan detail informasi suatu product sesuai dengan parameter berupa id product yang digunakan pada url nya. Attribute produk ditampilkan menggunakan kurung kurawal ganda. contoh :  `{{ product.desciption }}`
+8. Jalankan project Django dan buka pada http://localhost:8000/
+9. Saya juga mencoba mengakses 4 URL berikut menggunakan Postman:  
+- Mengakses `http://localhost:8000/xml/`
+<img width="1987" height="1383" alt="image" src="https://github.com/user-attachments/assets/30987bf3-6ac4-4495-8f18-04b7041d1c33" />
+- Mengakses `http://localhost:8000/json/`
+<img width="2019" height="1343" alt="image" src="https://github.com/user-attachments/assets/a2fbf69e-053c-44b8-a087-223c41ed664d" />
+- Mengakses `http://localhost:8000/xml/fade12d1-b255-466b-88c6-ff10dc8b673e/`
+<img width="2007" height="1016" alt="image" src="https://github.com/user-attachments/assets/3a02c85a-1fdf-46c4-b73a-eed91115c8c0" />
+- Mengakses `http://localhost:8000/json/fade12d1-b255-466b-88c6-ff10dc8b673e/`
+<img width="1994" height="1030" alt="image" src="https://github.com/user-attachments/assets/5cc566dc-e2cf-446f-b8f9-c5d34bc0b870" />
+
+### Apakah ada feedback untuk asdos di tutorial 2 yang sudah kalian kerjakan?
+Secara keseluruhan aman dan berjalan lancar. Mungkin jika ada sesi penjelasan dari asdos, lebih menunjukkan hasil akhir yang menjadi ekspektasi di tutorial tersebut atau mention hal hal tricky yang sering menjadi kesalahan.
+</details>
