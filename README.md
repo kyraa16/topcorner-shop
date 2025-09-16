@@ -108,12 +108,42 @@ Untuk mencegah hal itu, Django menyisipkan csrf_token ke dalam setiap form. Toke
 Jika kita tidak menambahkan csrf_token, maka form yang menggunakan metode POST akan sangat rentan dieksploitasi. Penyerang dapat dengan mudah membuat permintaan palsu yang seolah-olah sah, dan server tidak punya cara untuk membedakan mana permintaan asli dan mana yang palsu.
 
 ### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)
-- [x] Tambahkan 4 fungsi views baru untuk melihat objek yang sudah ditambahkan dalam format XML, JSON, XML by ID, dan JSON by ID
-- [x] Membuat routing URL untuk masing-masing views yang telah ditambahkan pada poin 1
-- [x] Membuat halaman yang menampilkan data objek model yang memiliki tombol "Add" yang akan redirect ke halaman form, serta tombol "Detail" pada setiap data objek model yang akan menampilkan halaman detail objek
-- [x] Membuat halaman form untuk menambahkan objek model pada app sebelumnya
-- [x] Membuat halaman yang menampilkan detail dari setiap data objek model
-- [x] Mengakses keempat URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman
+Berikut langkah-langkah yang saya lakukan untuk mengimplementasikan checklist yang ada:
+1. Membuat form input data product. Buat berkas `forms.py` pada direktori `main` yang akan digunakan untuk membuat struktur form. Buat object ProductForm dengan fields yang berisi attribute dari model Product. 
+2. Pada views.py di direktori `main`.  Buat function untuk menambahkan produk baru dan untuk menampilkan product, yaitu function `create_product`, `show_product`, `show_product_xml`, `show_product_json`, `show_product_xml_by_id`, `show_product_json_by_id`. 
+3. Pada urls.py di direktori main. import seluruh function yang sudah kita buat di views.py sebelumnya. Lalu, set url path ke dalam variable urlpatterns menjadi seperti ini:
+```
+urlpatterns = [
+    path('', show_main, name='show_main'),
+    path('create-product/', crate_product, name='create_product'),
+    path('product/<str:id>/', show_product, name='show_product'),
+    path('xml/', show_products_xml, name='show_products_xml'),
+    path('json/', show_products_json, name='show_products_json'),
+    path('xml/<str:id>/', show_product_xml_by_id, name='show_product_xml_by_id'),
+    path('json/<str:id>/', show_product_json_by_id, name='show_product_json_by_id'),
+]
+
+```
+4. Update berkas main.html. extend `base.html` sebagai template dari keseluruhan page hmtl kita. Gunakan block content dan tambahkan elemen seperti button dan cetak daftar product jika ada data product. Saya membuat hyperlink pada nama produk, sehingga jika diklik akan mengarahkan ke halaman detail produk tersebut.
+`<h2><a href="{% url 'main:show_product' product.id %}">{{ product.name }}</a></h2>`
+5. Buat berkas baru dengan nama `create_product.html` pada direktori `main/templates` sebagai tampilan dari form yang sudah dibuat sebelumnya. Object form Django ditampilkan dalam bentuk tabel sehingga nantinya user bisa memberikan inputan untuk dikirim ke server menggunakan method POST. Digunakan pula `{% csrf_token %} ` sebagai token keamanan yang mencegah serangan CSRF. Tambahkan button submit dengan text `Add Product` 
+6. Karena kita menggunakan csrf token, buka `settings.py` pada root project dan tambahkan url deployment pws pada `CSRF_TRUSTED_ORIGINS` seperti ini:
+```
+CSRF_TRUSTED_ORIGINS = [
+    "https://kadek-chandra-topcornershop.pbp.cs.ui.ac.id"
+]
+```
+7. Buat berkas baru dengan nama `product_detail.html` pada direktori `main/templates`. Gunakan block content dan extende `base.html`. Tampilkan detail informasi suatu product sesuai dengan parameter berupa id product yang digunakan pada url nya. Attribute produk ditampilkan menggunakan kurung kurawal ganda. contoh :  `{{ product.desciption }}`
+8. Jalankan project Django dan buka pada http://localhost:8000/
+9. Saya juga mencoba mengakses 4 URL berikut menggunakan Postman:  
+   1. Mengakses `http://localhost:8000/xml/`
+<img width="1987" height="1383" alt="image" src="https://github.com/user-attachments/assets/30987bf3-6ac4-4495-8f18-04b7041d1c33" />
+   2. Mengakses `http://localhost:8000/json/`
+<img width="2019" height="1343" alt="image" src="https://github.com/user-attachments/assets/a2fbf69e-053c-44b8-a087-223c41ed664d" />
+   3. Mengakses `http://localhost:8000/xml/fade12d1-b255-466b-88c6-ff10dc8b673e/`
+<img width="2007" height="1016" alt="image" src="https://github.com/user-attachments/assets/3a02c85a-1fdf-46c4-b73a-eed91115c8c0" />
+   4. Mengakses `http://localhost:8000/json/fade12d1-b255-466b-88c6-ff10dc8b673e/`
+<img width="1994" height="1030" alt="image" src="https://github.com/user-attachments/assets/5cc566dc-e2cf-446f-b8f9-c5d34bc0b870" />
 
 ### Apakah ada feedback untuk asdos di tutorial 2 yang sudah kalian kerjakan?
 Secara keseluruhan aman dan berjalan lancar. Mungkin jika ada sesi penjelasan dari asdos, lebih menunjukkan hasil akhir yang menjadi ekspektasi di tutorial tersebut atau mention hal hal tricky yang sering menjadi kesalahan.
