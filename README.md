@@ -2,6 +2,8 @@ Kadek Chandra Rasmi | 2406426473 | PBP E
 
 URL Deployment : https://kadek-chandra-topcornershop.pbp.cs.ui.ac.id/
 
+
+
 <details>
 <summary>Tugas 2 : Implementasi Model-View-Template (MVT) pada Django</summary>
  
@@ -66,7 +68,7 @@ Alur request dan response pada Django :
 
 ### Jelaskan peran settings.py dalam proyek Django!
 
-`settings.py` berperan sebagai pusat konfigurasi project Django, berisi pengaturan seperti database, installed apps, middleware, template, static files, secret key, dan konfigurasi environment lainnya. Semua komponen Django berjalan mengikuti pengaturan yang diinginkan sesuai dengan isi dari `settings.py`. 
+`settings.py` berperan sebagai pusat konfigurasi project Django, berisi pengaturan seperti database, installed apps, middleware, template, static files, secret key, dan konfigurasi environment lainnya. Semua komponen Django berjalan mengikuti pengaturan yang diinginkan sesuai dengan isi dari `settings.py`.
 
 ### Bagaimana cara kerja migrasi database di Django?
 
@@ -84,4 +86,19 @@ Tutorial 1 sebelumnya sudah sangat baik. Tidak ada kendala dan instruksi tutoria
 
 <details>
 <summary>Tugas 3: Implementasi Form dan Data Delivery pada Django</summary>
+
+### Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+### Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+### Jelaskan fungsi dari method `is_valid()` pada form Django dan mengapa kita membutuhkan method tersebut?
+### Mengapa kita membutuhkan `csrf_token` saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan `csrf_token` pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)
+- [x] Tambahkan 4 fungsi views baru untuk melihat objek yang sudah ditambahkan dalam format XML, JSON, XML by ID, dan JSON by ID
+- [x] Membuat routing URL untuk masing-masing views yang telah ditambahkan pada poin 1
+- [x] Membuat halaman yang menampilkan data objek model yang memiliki tombol "Add" yang akan redirect ke halaman form, serta tombol "Detail" pada setiap data objek model yang akan menampilkan halaman detail objek
+- [x] Membuat halaman form untuk menambahkan objek model pada app sebelumnya
+- [x] Membuat halaman yang menampilkan detail dari setiap data objek model
+- [x] Mengakses keempat URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman
+
+### Apakah ada feedback untuk asdos di tutorial 2 yang sudah kalian kerjakan?
+
 </details>
