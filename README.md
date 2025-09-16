@@ -127,6 +127,7 @@ urlpatterns = [
 4. Update berkas main.html. extend `base.html` sebagai template dari keseluruhan page hmtl kita. Gunakan block content dan tambahkan elemen seperti button dan cetak daftar product jika ada data product. Saya membuat hyperlink pada nama produk, sehingga jika diklik akan mengarahkan ke halaman detail produk tersebut.
 
 `<h2><a href="{% url 'main:show_product' product.id %}">{{ product.name }}</a></h2>`
+
 6. Buat berkas baru dengan nama `create_product.html` pada direktori `main/templates` sebagai tampilan dari form yang sudah dibuat sebelumnya. Object form Django ditampilkan dalam bentuk tabel sehingga nantinya user bisa memberikan inputan untuk dikirim ke server menggunakan method POST. Digunakan pula `{% csrf_token %} ` sebagai token keamanan yang mencegah serangan CSRF. Tambahkan button submit dengan text `Add Product` 
 7. Karena kita menggunakan csrf token, buka `settings.py` pada root project dan tambahkan url deployment pws pada `CSRF_TRUSTED_ORIGINS` seperti ini:
 ```
