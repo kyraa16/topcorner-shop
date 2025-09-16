@@ -88,9 +88,25 @@ Tutorial 1 sebelumnya sudah sangat baik. Tidak ada kendala dan instruksi tutoria
 <summary>Tugas 3: Implementasi Form dan Data Delivery pada Django</summary>
 
 ### Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+Data delivery adalah proses yang menjadi jembatan antara data pada server dengan kebutuhan informasi di sisi client. Tanpa mekanisme data delivery, aplikasi di sisi pengguna tidak akan bisa mendapatkan informasi/data yang disimpan di backend.
+
 ### Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+XML dan JSON adalah format untuk data delivery. XML (eXtensible Markup Language) menggunakan struktur berbasis tag mirip HTML. Data dibungkus dengan tag pembuka dan penutup sehingga bentuknya hierarkis dan fleksibel. Namun, kelemahannya adalah ukuran file yang lebih besar karena banyaknya tag, dan parsing data bisa lebih berat. Sedangkan JSON (JavaScript Object Notation) menggunakan struktur pasangan key-value yang ringkas dan sederhana. JSON berbentuk objek dan array, sehingga lebih mudah dibaca manusia dan langsung kompatibel dengan JavaScript serta banyak bahasa pemrograman modern. JSON tidak membutuhkan tag berulang, sehingga ukuran data lebih kecil dan proses parsing lebih cepat. XML unggul pada validasi data yang ketat, sementara JSON unggul pada formatnya yang sederhana dan cepat. 
+
+Menurut saya JSON lebih unggul dan memang terbukti JSON lebih populer digunakan. JSON lebih ringkas, mudah dipahami, parsing lebih cepat, dan sangat natural digunakan di ekosistem web modern. Hampir semua API RESTful saat ini menggunakan JSON sebagai format default, sementara XML mulai jarang dipakai kecuali pada sistem lama atau kebutuhan khusus. 
+
 ### Jelaskan fungsi dari method `is_valid()` pada form Django dan mengapa kita membutuhkan method tersebut?
+Dalam Django, setiap form yang kita buat bertujuan untuk menerima input dari pengguna. Namun, data yang dimasukkan tidak selalu benar atau sesuai aturan. Bisa saja pengguna lupa mengisi data yang wajib diisi, memasukkan teks pada field angka, atau memilih opsi yang tidak tersedia. Di sinilah fungsi is_valid() berguna. 
+
+Method is_valid() digunakan untuk memeriksa apakah data yang dikirim melalui form memenuhi semua aturan validasi yang sudah ditentukan oleh field dalam form maupun validasi tambahan yang kita buat. Ketika dipanggil, Django akan menjalankan proses pemeriksaan untuk setiap field. Jika semua data valid, maka is_valid() mengembalikan True dan data tersebut akan disimpan ke dalam form.cleaned_data, siap digunakan atau disimpan ke database. Namun, jika ada data yang tidak valid, is_valid() mengembalikan False dan Django otomatis menyediakan informasi error melalui form.errors, sehingga kita bisa menampilkan pesan kesalahan kepada pengguna. Tanpa validasi ini, aplikasi bisa menerima data yang salah atau bahkan berbahaya, yang pada akhirnya dapat menimbulkan error, kerusakan data, atau celah keamanan.
+
 ### Mengapa kita membutuhkan `csrf_token` saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan `csrf_token` pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+Ketika kita membuat form di Django, dibutuhkan penggunaan csrf_token. Token ini merupakan mekanisme perlindungan terhadap serangan yang dikenal sebagai CSRF atau Cross-Site Request Forgery. Serangan ini terjadi ketika seorang penyerang membuat sebuah halaman berbahaya yang diam-diam mengirim permintaan ke situs yang sedang kita gunakan, dengan memanfaatkan fakta bahwa browser korban masih menyimpan cookie autentikasi. Misalnya, tanpa disadari korban bisa saja diarahkan untuk melakukan perubahan password, mengirim data, atau bahkan melakukan transaksi, hanya karena ia sedang login di situs tersebut.
+
+Untuk mencegah hal itu, Django menyisipkan csrf_token ke dalam setiap form. Token ini bersifat unik untuk setiap sesi pengguna, sehingga server bisa memverifikasi bahwa permintaan yang masuk benar-benar berasal dari halaman sah, bukan dari sumber asing. Dengan kata lain, csrf_token bertindak sebagai tanda keamanan yang membuktikan bahwa form benar-benar dikirim dari aplikasi kita sendiri.
+
+Jika kita tidak menambahkan csrf_token, maka form yang menggunakan metode POST akan sangat rentan dieksploitasi. Penyerang dapat dengan mudah membuat permintaan palsu yang seolah-olah sah, dan server tidak punya cara untuk membedakan mana permintaan asli dan mana yang palsu.
+
 ### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)
 - [x] Tambahkan 4 fungsi views baru untuk melihat objek yang sudah ditambahkan dalam format XML, JSON, XML by ID, dan JSON by ID
 - [x] Membuat routing URL untuk masing-masing views yang telah ditambahkan pada poin 1
@@ -100,5 +116,5 @@ Tutorial 1 sebelumnya sudah sangat baik. Tidak ada kendala dan instruksi tutoria
 - [x] Mengakses keempat URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman
 
 ### Apakah ada feedback untuk asdos di tutorial 2 yang sudah kalian kerjakan?
-
+Secara keseluruhan aman dan berjalan lancar. Mungkin jika ada sesi penjelasan dari asdos, lebih menunjukkan hasil akhir yang menjadi ekspektasi di tutorial tersebut atau mention hal hal tricky yang sering menjadi kesalahan.
 </details>
