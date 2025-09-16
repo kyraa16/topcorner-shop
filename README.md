@@ -88,7 +88,7 @@ Tutorial 1 sebelumnya sudah sangat baik. Tidak ada kendala dan instruksi tutoria
 <summary>Tugas 3: Implementasi Form dan Data Delivery pada Django</summary>
 
 ### Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
-Data delivery adalah proses yang menjadi jembatan antara data pada server dengan kebutuhan informasi di sisi client. Tanpa mekanisme data delivery, aplikasi di sisi pengguna tidak akan bisa mendapatkan informasi/data yang disimpan di backend.
+Data delivery dibutuhkan sebagai proses yang menjadi jembatan antara data pada server dengan kebutuhan informasi di sisi client. Tanpa mekanisme data delivery, aplikasi di sisi pengguna tidak akan bisa mendapatkan informasi/data yang disimpan di backend.
 
 ### Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
 XML dan JSON adalah format untuk data delivery. XML (eXtensible Markup Language) menggunakan struktur berbasis tag mirip HTML. Data dibungkus dengan tag pembuka dan penutup sehingga bentuknya hierarkis dan fleksibel. Namun, kelemahannya adalah ukuran file yang lebih besar karena banyaknya tag, dan parsing data bisa lebih berat. Sedangkan JSON (JavaScript Object Notation) menggunakan struktur pasangan key-value yang ringkas dan sederhana. JSON berbentuk objek dan array, sehingga lebih mudah dibaca manusia dan langsung kompatibel dengan JavaScript serta banyak bahasa pemrograman modern. JSON tidak membutuhkan tag berulang, sehingga ukuran data lebih kecil dan proses parsing lebih cepat. XML unggul pada validasi data yang ketat, sementara JSON unggul pada formatnya yang sederhana dan cepat. 
