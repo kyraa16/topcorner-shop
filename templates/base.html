@@ -1,12 +1,16 @@
-{% load static tailwind_tags %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {% tailwind_css %}
     <title>{% block title %}Top Corner{% endblock title %}</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="{% static 'css/global.css' %}"/>
+
     {% block meta %} {% endblock meta %}
 </head>
 
