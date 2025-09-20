@@ -58,13 +58,6 @@ Akses halaman PWS dan login ke dalamnya. Create new project dengan nama project 
 ### Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html
 <img width="2302" height="1388" alt="Bagan" src="https://github.com/user-attachments/assets/e7fb4c1f-6cbf-4cdd-952c-0ede95f0e109" />
 
-Alur request dan response pada Django :
-1. Client mengakses URL dan mengirimkan `HTTP Request` ke server Django
-2. `urls.py` (Routing) memeriksa apakah URL yang diminta sesuai dengan pola yang ada. Jika pola cocok, teruskan ke `views.py`. Jika tida ada pola yang cocok, kembalikan error `404 Not Found`.
-3. `views.py` berperan sebagai penghubung antara request, model, dan template. 
-4. Jika view membutuhkan data dari database, dia akan memanggil `models.py` untuk read/write data.
-5. View akan merender template HTML dengan data dari model. 
-6. Hasil render template akan menjadi HTTP Response dalam bentuk HTML. HTML ini dikirim kembali ke browser user untuk ditampilkan.
 
 ### Jelaskan peran settings.py dalam proyek Django!
 
