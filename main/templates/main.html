@@ -3,6 +3,7 @@
 
   <h1>{{ title }}</h1>
   <p>Nama: {{ name }}</p>
+  <p>Username: {{ username }}</p>
   <p>NPM: {{ npm }}</p>
   <p>Kelas: {{ class }}</p>
 
@@ -17,7 +18,7 @@
   </a>
 
   {% comment %} Informasi User {% endcomment %}
-  <h4>Username: {{ user.username }}</h3>
+  {% comment %} <h4>Username: {{ user.username }}</h3> {% endcomment %}
   <h4>Sesi terakhir login: {{ last_login }}</h5>
   
 

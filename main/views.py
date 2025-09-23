@@ -26,6 +26,7 @@ def show_main(request):
     context = {
         'title': 'Topcorner Shop',
         'name': 'Kadek Chandra Rasmi',
+        'username': request.user.username,
         'npm': '2406426473',
         'class': 'PBP E',
         'products': product_list,
