@@ -15,7 +15,10 @@
   <a href="{% url 'main:logout' %}">
   <button>Logout</button>
   </a>
-  <h5>Sesi terakhir login: {{ last_login }}</h5>
+
+  {% comment %} Informasi User {% endcomment %}
+  <h4>Username: {{ user.username }}</h3>
+  <h4>Sesi terakhir login: {{ last_login }}</h5>
   
 
   <!-- Tambahkan kode ini -->
