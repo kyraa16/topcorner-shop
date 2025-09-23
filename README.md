@@ -148,13 +148,48 @@ Secara keseluruhan aman dan berjalan lancar. Mungkin jika ada sesi penjelasan da
 <summary>Tugas 4: Implementasi Autentikasi, Session, dan Cookies pada Django</summary>
 
 ### Apa itu Django AuthenticationForm? Jelaskan juga kelebihan dan kekurangannya
+Django AuthenticationForm merupakan komponen bawaan Django yang terdapat dalam modul `django.contrib.auth.forms.AuthenticationForm`. Form ini secara khusus dirancang untuk menangani proses autentikasi pengguna. Menyederhanakan implementasi sistem login dengan menyediakan validasi otomatis untuk username dan password yang terintegrasi langsung dengan backend autentikasi Django.
+
+Kelebihan dari Django AuthenticationForm adalah kemudahan pengimplementasiannya, dengan keamanan bawaan (seperti hashing password, protection terhadap serangan brute force). Namun, form ini memiliki keterbatasan dalam fleksibilitas karena hanya mendukung field standar username-password dan ketergantungan pada model User bawaan Django, sehingga kurang cocok untuk skenario autentikasi kompleks seperti login dengan email, OTP, atau Multi-Factor Authentication.
 
 ### Apa perbedaan antara autentikasi dan otorisasi? Bagaiamana Django mengimplementasikan kedua konsep tersebut?
+Authentikasi -> proses verifikasi identitas pengguna/siapa pengguna itu. Seperti ketika seseorang login menggunakan username dan password. Pada penerapannya di Django, proses ini ditangani oleh modul `django.contrib.auth` yang menyediakan fungsi seperti `authenticate()` untuk memvalidasi kredensial dan `login()` untuk membuat session pengguna. 
+
+Sedangkan Otorisasi -> mengatur hak akses pengguna/apa yang boleh dilakukan oleh seorang pengguna. Pada Django diimplementasikan seperti pada decoration `@login_required` untuk membatasi akses laman tersebut hanya kepada pengguna yang telah login. Selain itu ada `@permission_required` untuk izin akses yang spesifik, serta sistem Group/Permission untuk kontrol yang lebih terstruktur. 
+
 
 ### Apa saja kelebihan dan kekurangan session dan cookies dalam konteks menyimpan state di aplikasi web?
+Cookies disimpan sepenuhnya di client-side (browser), sehingga lebih ringan dan mudah diimplementasikan tanpa beban server. Cocok untuk data non-sensitif. Namun, kapasitasnya terbatas, rentan terhadap pencurian data jika tidak diamankan, dan dapat dihapus atau dinonaktifkan oleh pengguna kapan saja.
+
+Session menyimpan data utama di server, dengan hanya ID session yang disimpan di cookie client. Session jauh lebih aman, cocok untuk informasi yang sensitif karena data tidak dapat diakses atau diubah langsung oleh client. Session juga mampu menangani data yang lebih besar dan kompleks. Kelemahannya adalah membutuhkan penyimpanan server yang dapat memengaruhi performa dan memerlukan prosedur yang lebih rumit, serta membutuhkan sinkronisasi antar server juga pada lingkungan yang lebih besar.
+
 
 ### Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai? Bagaimana Django menangani hal tersebut?
+Penggunaan cookies dalam pengembangan web tidak sepenuhnya aman secara default. Terdapat risiko yang harus diwaspadai, diantaranya: Cross-Site Scripting (XSS) dimana penyerang dapat mencuri cookies melalui script berbahaya. Cross-Site Request Forgery (CSRF) yang memanfaatkan cookies session untuk melakukan aksi tidak sah, serta pencurian data melalui jaringan yang tidak aman terutama jika tidak menggunakan HTTPS.
 
-### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)
+Django menangani berbagai risiko ini melalui beberapa lapisan perlindungan. Untuk mencegah CSRF, Django menyertakan `csrf_token` yang wajib pada setiap form submission. Pengaturan keamanan cookies seperti `HttpOnly flag` mencegah akses JavaScript terhadap cookies, `Secure flag` memastikan cookies hanya dikirim melalui HTTPS, dan `SameSite` attribute membatasi pengiriman cookies lintas situs. Selain itu, Django hanya menyimpan session ID di cookie sementara data sensitif disimpan di server, serta menyediakan signed cookies yang dapat mendeteksi jika data diubah oleh pihak tidak berwenang.
+
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step.
+Berikut langkah-langkah yang saya lakukan untuk mengimplementasikan checklist yang ada:
+1. Membuat Form Registrasi yang diawali dengan membuat fungsi `register`, `login_user`, `logout_user` pada `views.py` dengan menggunakan `AuthenticationForm` dan `UserCreationForm`.
+2. Membuat template `register.html`, `login.html`. Tampilkan form sebagai table dan gunakan `{% csrf_token %}` untuk menjaga keamanan data form. Pada `main.html`, tambahkan pula button `logout`.
+3. Tambahkan path url untuk mengakses halaman registrasi, login, dan logout pada `urlpatterns`. Sehingga halaman registrasi dapat diakses melalui `.../register/`, halaman login dapat diakses melalui `.../login/`, dan logout pada `.../logout/`.
+4. Setelah membuat authentikasi, set retriksi pada halaman utama dan detail produk. Sehingga akses dibatasi kepada pengguna yang sudah login saja(terautentikasi). Restriksi ini dilakukan dengan menambahkan decorator `login required` :
+```
+@login_required(login_url='/login')
+def show_main(request):
+```
+```
+@login_required(login_url='/login')
+def show_product(request, id):
+```
+5. Set cookie bernama `last_login` pada saat user baru saja login. Simpan informasi `last_login` ini dan tampilkan pada `main.html`. Saya juga menghapus cookie jika pengguna telah keluar/logout.
+6. Saya juga melakukan test terhadap sistem autentikasi yang telah dibangun dengan mencoba membuat 2 akun pengguna dan masing-masing 3 dummy data. 
+6. Menghubungkan model `Product` dengan `User` dengan hubungan `one-to-many relationship` dimana seorang user dapat membuat/memposting banyak product. Tambahkan `user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)` pada class model `Product` dan lakukan migration.
+7. Tambahkan fitur filter sehingga dapat menampilkan keseluruhan item atau hanya item yang dibuat oleh pengguna itu saja. 
+8. Tampilkan informasi pengguna berupa `username` pada halaman utama. Tampilkan pula `username` pengguna yang membuat suatu produk pada halaman detail produk.
+9. Saya juga mencoba menggunakan `selenium` untuk menjalankan functional test di Django. Saya membuat suatu class `FootballShopFunctionalTest` yang berisi fungsi-fungsi untuk menguji fungsionalitas dari fitur yang saya buat. 
+10. Terakhir, saya melakukan `push` ke github dan pws. 
+
 
 </details>
