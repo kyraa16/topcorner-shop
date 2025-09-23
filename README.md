@@ -143,3 +143,18 @@ CSRF_TRUSTED_ORIGINS = [
 ### Apakah ada feedback untuk asdos di tutorial 2 yang sudah kalian kerjakan?
 Secara keseluruhan aman dan berjalan lancar. Mungkin jika ada sesi penjelasan dari asdos, lebih menunjukkan hasil akhir yang menjadi ekspektasi di tutorial tersebut atau mention hal hal tricky yang sering menjadi kesalahan.
 </details>
+
+<details>
+<summary>Tugas 4: Implementasi Autentikasi, Session, dan Cookies pada Django</summary>
+
+### Apa itu Django AuthenticationForm? Jelaskan juga kelebihan dan kekurangannya
+
+### Apa perbedaan antara autentikasi dan otorisasi? Bagaiamana Django mengimplementasikan kedua konsep tersebut?
+
+### Apa saja kelebihan dan kekurangan session dan cookies dalam konteks menyimpan state di aplikasi web?
+
+### Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai? Bagaimana Django menangani hal tersebut?
+
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)
+
+</details>

@@ -16,24 +16,30 @@ from django.core import serializers
 # Create your views here.
 @login_required(login_url='/login')
 def show_main(request):
-    
-    # ambil beberapa produk dari database
-    products_list = Product.objects.all() 
+    filter_type = request.GET.get("filter", "all")  # default 'all'
+
+    if filter_type == "all":
+        product_list = Product.objects.all()
+    else:
+        product_list = Product.objects.filter(user=request.user)
     
     context = {
         'title': 'Topcorner Shop',
         'name': 'Kadek Chandra Rasmi',
         'npm': '2406426473',
         'class': 'PBP E',
-        'products': products_list,
+        'products': product_list,
         'last_login': request.COOKIES.get('last_login', 'Never')
     }
     return render(request, "main.html", context)
 
 def crate_product(request):
     form = ProductForm(request.POST or None)
+    
     if form.is_valid() and request.method == 'POST':
-        form.save()
+        product_entry = form.save(commit=False)
+        product_entry.user = request.user
+        product_entry.save()
         return redirect('main:show_main')
     
     context = {'form': form}

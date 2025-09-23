@@ -7,9 +7,9 @@
     <title>{% block title %}Top Corner{% endblock title %}</title>
 
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
 
-    <link rel="stylesheet" href="{% static 'css/global.css' %}"/>
+    {% comment %} <link rel="stylesheet" href="{% static 'css/global.css' %}"/> {% endcomment %}
 
     {% block meta %} {% endblock meta %}
 </head>

@@ -5,6 +5,14 @@
 <h1>{{ product.name }}</h1>
 <p>Harga: Rp {{ product.price }}</p>
 <p><b>{{ product.get_category_display }}</b></p>
+
+<!-- Tambahkan kode ini -->
+{% if product.user %}
+    <p>Shop: {{ product.user.username }}</p>
+{% else %}
+    <p>Shop: Anonymous</p>
+{% endif %}
+
 {% if product.thumbnail %}
     <img src="{{ product.thumbnail }}" width="250"  alt="{{ product.name }}">
     <br />
