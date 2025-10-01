@@ -201,43 +201,32 @@ def show_product(request, id):
 
 ### Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
 CSS selector memiliki urutan prioritas tertentu ketika beberapa selector menargetkan elemen yang sama. Urutan prioritas dari tertinggi ke terendah adalah:
-1. `Inline styles`, yaitu CSS yang ditulis langsung pada atribut style elemen HTML
-2. `ID selectors` , yaitu selector yang menggunakan ID (#id)
-3. `Class selectors, Attribute selectors, dan Pseudo-classes` : Selector seperti `.class`, `[type="text"]`, `:hover`
-4. `Element selectors dan Pseudo-elements` : Selector seperti `div`, `p`, `::before`
-
-```
-/* Prioritas 1: Inline style */
-<div style="color: red;"></div>
-
-/* Prioritas 2: ID selector */
-#header { color: blue; }
-
-/* Prioritas 3: Class selector */
-.container { color: green; }
-
-/* Prioritas 4: Element selector */
-div { color: black; }
-```
+1. style dengan deklarasi `!important`
+2. `Inline styles`, yaitu CSS yang ditulis langsung pada atribut style elemen HTML
+3. `ID selectors` , yaitu selector yang menggunakan ID (#id)
+4. `Class selectors, Attribute selectors, dan Pseudo-classes` : Selector seperti `.class`, `[type="text"]`, `:hover`
+5. `Element selectors dan Pseudo-elements` : Selector seperti `div`, `p`, `::before`
 
 ### Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design, serta jelaskan mengapa!
-Responsive design memastikan bahwa sebuah website dapat menyesuaikan tampilannya secara otomatis sesuai dengan ukuran layar perangkat yang digunakan, baik itu komputer desktop, tablet, atau smartphone. 
+Responsive design memastikan bahwa sebuah website dapat menyesuaikan tampilannya secara otomatis sesuai dengan ukuran layar perangkat yang digunakan, baik itu komputer desktop, tablet, atau smartphone. Konsep ini menjadi sangat penting karena kebanyakan orang sekarang mengakses aplikasi/website melalui berbagai gadget mereka, terutama ponsel. 
 
-Konsep ini menjadi sangat penting karena kebanyakan orang sekarang mengakses internet melalui ponsel mereka. Jika website tidak nyaman dilihat di ponsel, besar kemungkinan pengguna akan langsung meninggalkan website tersebut.
+Berikut adalah contoh website yang telah menerapkan responsive design:
+https://www.netflix.com/id-en/
 
-Selain untuk kenyamanan pengguna, responsive design juga berpengaruh pada peringkat website di mesin pencari seperti Google. Google sendiri secara terbuka menyatakan bahwa mereka memberikan nilai lebih tinggi pada website yang ramah untuk perangkat mobile. Jadi, jika ingin website kita mudah ditemukan orang, responsive design adalah syarat utamanya.
+[Netfli Dektop]
+[Netflix Mobile]
 
-Contoh nyata penerapan responsive design yang baik bisa kita lihat di Twitter dan Netflix. Coba buka Twitter di komputer dan bandingkan dengan tampilannya di ponsel. Di ponsel, menu navigasinya disederhanakan, tata letak menyesuaikan, tapi semua fitur tetap mudah diakses. Netflix juga melakukan hal serupa dengan menata ulang tata letak film dan series berdasarkan ukuran layar.
+Bandingkan dengan website Aren:
+https://aren.cs.ui.ac.id/
 
-Sebaliknya, contoh website yang tidak responsive adalah aren cs ui
+[Aren Desktop]
+[Aren Mobile]
 
+Dapat dilihat bahwa pada website Netfilx, tampilan desktop dan mobile berbeda. Ukuran text dan background imagenya telah disesuaikan. Sedangkan pada aren, tampilannya tidak responsive. Jika dibuka pada mobile, tampilannya tetap tampilan desktop dan ini sangat mengurangi kenyamanan pengguna karena text terlalu kecil dan sulit menavigasikan website. 
 
-Dengan menerapkan responsive design, kita tidak hanya membuat website lebih mudah diakses, tetapi juga menghemat waktu dan biaya pengembangan karena cukup satu versi website yang bisa beradaptasi dengan semua perangkat, alih-alih harus membuat versi terpisah untuk desktop dan mobile.
-
-
+Selain untuk kenyamanan pengguna, responsive design juga berpengaruh pada peringkat website di mesin pencari seperti Google. Google sendiri secara terbuka menyatakan bahwa mereka memberikan nilai lebih tinggi pada website yang ramah untuk perangkat mobile. 
 
 ### Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
-
 `Padding` adalah ruang di antara `content` dan `border`. Sedangkan `Border` adalah garis yang mengelilingi padding + content. Lalu, `Margin` adalah ruang di luar border yang memisahkan elemen satu sama lain. 
 
 Misal kita memiliki suatu div  dengan `class="card"`. Kita dapat membuat:
@@ -252,17 +241,17 @@ margin: 12px auto; /* jarak luar */
 }
 ```
 
-### Jelaskan konsep flex box dan grid layout beserta kegunaannya!
-Flexbox:
-Merupakan One-dimensional layout (satu arah : horizontal atau vertical). Flexbox digunakan untuk menyusun elemen dalam satu baris atau kolom. Penggunaan ini ideal untuk elemen-elemen seperti Navigation bars, card layouts, form elements, dan lainnya.
+card ini mengimplementasikan ketiganya dengan `padding` sebesar 16px, `margin` 12px, dan `border` 1px sebagai garis pembatas.
 
-Sedangkan `Grid Layout` merupakan Two-dimensional layout (baris dan kolom sekaligus). Grid digunakan untuk layout kompleks dengan struktur grid. Grid ini akan sangat berguna untuk digunakan pada Page layouts, dashboard, atau gallery.
+### Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+`Flexbox` merupakan One-dimensional layout (satu arah : horizontal atau vertical). Flexbox digunakan untuk menyusun elemen dalam satu baris atau kolom. Penggunaan ini ideal untuk elemen-elemen seperti Navigation bars, card layouts, form, dan lainnya.
+
+Sedangkan `Grid Layout` merupakan Two-dimensional layout (baris dan kolom sekaligus). Grid digunakan untuk layout kompleks dengan struktur grid. Grid ini akan sangat berguna untuk digunakan pada halaman seperti dashboard, atau gallery.
 
 ### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
-
-
-
-
-
+Cara saya mengimplementasikan checklist yang ada, yaitu dengan:
+1. Menambahkan Tailwind ke dalam project menggunakan CDN. Menambahkan `<script src="https://cdn.tailwindcss.com"></script>` pada header `base.html`
+2. Menambahkan fitur `edit` dan `delete` untuk produk yang dibuat oleh user itu sendiri. Saya membuat function `edit_product` dan `delete_product` pada `views.py`. Lalu, membuat berkas HTML `edit_product.html`. Menambahkan path pada `urls.py`. 
+3. Terakhir saya melakukan styling terhadap seluruh page yang ada dengan menerapkan Tailwind CSS. Dimulai dari pembuatan `navbar`. Lalu saya juga membuat `global.css`, menambahkan beberapa image yang ingin sama tampilkan pada website saya, dan membuat favicon. Untuk design card product, saya membuat component card pada `card_product.html`. Implementasikan card product pada `main.html`. Saya juga membuat agar tampilan website responsive di berbagai ukuran perangkat. 
 
 </details>
