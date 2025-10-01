@@ -11,18 +11,36 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
     <!-- Header Section -->
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">Temukan Peralatan Olahraga Terbaik Untukmu</h1>
-      <p class="text-gray-600">Boost your skill with good products</p>
-    </div>
+      <div class="bg-slate-900 text-white rounded-3xl p-8 sm:p-12 lg:p-16 shadow-lg border border-slate-800/50 mb-4">
+        <div class="text-center">
+          <!-- small label -->
+          <p class="text-sm text-slate-400 mb-4">Top Corner Shop</p>
+
+          <!-- headline -->
+          <h1 class="text-2xl sm:text-2xl md:text-4xl lg:text-4xl font-bold  mb-4">
+            Equip Yourself, Elevate Your Game.
+          </h1>
+
+          <!-- subhead -->
+          <p class="mx-auto max-w-2xl text-base sm:text-lg md:text-xl text-slate-300 mb-8">
+            Boost your skills with high-quality products
+          </p>
+
+          <!-- CTA -->
+          <a href="#products"
+            class="inline-block bg-cyan-600 hover:bg-cyan-600 focus:outline-none focus:ring-4 focus:ring-indigo-300 text-white font-medium rounded-xl px-6 py-3 sm:px-8 sm:py-4 transition-shadow shadow-sm hover:bg-cyan-700">
+            Start shopping
+          </a>
+        </div>
+      </div>
 
     <!-- Filter Section -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 bg-white rounded-lg border border-gray-200 p-4">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 bg-white rounded-xl border border-gray-200 p-4">
       <div class="flex space-x-3 mb-4 sm:mb-0">
-        <a href="?" class="{% if request.GET.filter == 'all' or not request.GET.filter  %} bg-green-600 text-white{% else %}bg-white text-gray-700 border border-gray-300{% endif %} px-4 py-2 rounded-md font-medium transition-colors hover:bg-green-600 hover:text-white">
+        <a href="?" class="{% if request.GET.filter == 'all' or not request.GET.filter  %} bg-cyan-600 text-white{% else %}bg-white text-gray-700 border border-gray-300{% endif %} px-4 py-2 rounded-md font-medium transition-colors hover:bg-cyan-700 hover:text-white">
           All Products
         </a>
-        <a href="?filter=my" class="{% if request.GET.filter == 'my' %} bg-green-600 text-white{% else %}bg-white text-gray-700 border border-gray-300{% endif %} px-4 py-2 rounded-md font-medium transition-colors hover:bg-green-600 hover:text-white">
+        <a href="?filter=my" class="{% if request.GET.filter == 'my' %} bg-cyan-600 text-white{% else %}bg-white text-gray-700 border border-gray-300{% endif %} px-4 py-2 rounded-md font-medium transition-colors hover:bg-cyan-700 hover:text-white">
           My Products
         </a>
       </div>
@@ -33,7 +51,7 @@
       {% endif %}
     </div>
 
-    <!-- News Grid -->
+    <!-- products Grid -->
     {% if not products %}
       <div class="bg-white rounded-lg border border-gray-200 p-12 text-center">
         <div class="w-32 h-32 mx-auto mb-4">
@@ -41,12 +59,12 @@
         </div>
         <h3 class="text-lg font-medium text-gray-900 mb-2">No product found</h3>
         <p class="text-gray-500 mb-6">Be the first to share football product here!</p>
-        <a href="{% url 'main:create_product' %}" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+        <a href="{% url 'main:create_product' %}" class="inline-flex items-center px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700 transition-colors">
           Add Product
         </a>
       </div>
     {% else %}
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div id="products" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for product in products %}
           {% include 'card_product.html' with product=product %}
         {% endfor %}

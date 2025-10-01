@@ -9,16 +9,26 @@
     
     <!-- Back Navigation -->
     <div class="mb-6">
-      <a href="{% url 'main:show_main' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-        ← Back to Home
+      <a href="{% url 'main:show_main' %}" 
+        class="inline-flex items-center px-4 py-2 rounded-lg bg-cyan-600 text-white font-medium hover:bg-cyan-700 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke-width="2" 
+            stroke="currentColor" 
+            class="w-5 h-5 mr-2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to Home
       </a>
     </div>
+
     
     <!-- Form -->
-    <div class="bg-white rounded-lg border border-gray-200 p-6 sm:p-8 form-style">
-      <div class="mb-8">
+    <div class="bg-white rounded-xl border border-gray-200 p-6 sm:p-8 form-style">
+      <div class="mb-8 text-center">
         <h1 class="text-2xl font-bold text-gray-900 mb-2">Add New Product</h1>
-        <p class="text-gray-600">Lorem ipsum dollor sit amet ameutur</p>
+        <p class="text-gray-600">Fill in the details to showcase your product</p>
       </div>
       
       <form method="POST" class="space-y-6">
@@ -44,7 +54,7 @@
           <a href="{% url 'main:show_main' %}" class="order-2 sm:order-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-gray-50 transition-colors text-center">
             Cancel
           </a>
-          <button type="submit" class="order-1 sm:order-2 flex-1 bg-green-600 text-white px-6 py-3 rounded-md font-medium hover:bg-green-700 transition-colors">
+          <button type="submit" class="order-1 sm:order-2 flex-1 bg-cyan-600 text-white px-6 py-3 rounded-md font-medium hover:bg-cyan-700 transition-colors">
             Publish Item
           </button>
         </div>

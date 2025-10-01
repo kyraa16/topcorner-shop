@@ -4,15 +4,64 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/png" href="{% static 'image/favicon.png' %}">
         
         {% block meta %} {% endblock meta %}
         
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="{% static 'css/global.css' %}"/>
+        <link href="{% static 'css/global.css' %}" rel="stylesheet">
+
     </head>
 
     <body>
         {% block content %} {% endblock content %}
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+            function hideAllDropdowns() {
+                var els = document.querySelectorAll('[id^="dropdown-"]');
+                for (var i = 0; i < els.length; i++) {
+                if (!els[i].classList.contains('hidden')) {
+                    els[i].classList.add('hidden');
+                }
+                }
+            }
+
+            // klik global: buka/tutup dropdown bila klik tombol ...
+            // atau tutup semua bila klik luar
+            document.addEventListener('click', function (e) {
+                var kebab = e.target.closest('.kebab-btn');
+                if (kebab) {
+                e.stopPropagation();
+                var id = kebab.getAttribute('data-product-id');
+                if (!id) return;
+                var dropdown = document.getElementById('dropdown-' + id);
+                if (!dropdown) return;
+
+                // tutup dropdown lain
+                var all = document.querySelectorAll('[id^="dropdown-"]');
+                for (var i = 0; i < all.length; i++) {
+                    if (all[i] !== dropdown) all[i].classList.add('hidden');
+                }
+
+                // toggle ini
+                dropdown.classList.toggle('hidden');
+                return;
+                }
+
+                // klik di luar -> tutup semua
+                hideAllDropdowns();
+            });
+
+            // Esc untuk menutup
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' || e.key === 'Esc') {
+                hideAllDropdowns();
+                }
+            });
+            });
+            </script>
+
     </body>
     
 </html>

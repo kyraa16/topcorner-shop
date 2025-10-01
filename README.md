@@ -200,12 +200,63 @@ def show_product(request, id):
 <summary>Tugas 5: Desain Web menggunakan HTML, CSS dan Framework CSS</summary>
 
 ### Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+CSS selector memiliki urutan prioritas tertentu ketika beberapa selector menargetkan elemen yang sama. Urutan prioritas dari tertinggi ke terendah adalah:
+1. `Inline styles`, yaitu CSS yang ditulis langsung pada atribut style elemen HTML
+2. `ID selectors` , yaitu selector yang menggunakan ID (#id)
+3. `Class selectors, Attribute selectors, dan Pseudo-classes` : Selector seperti `.class`, `[type="text"]`, `:hover`
+4. `Element selectors dan Pseudo-elements` : Selector seperti `div`, `p`, `::before`
+
+```
+/* Prioritas 1: Inline style */
+<div style="color: red;"></div>
+
+/* Prioritas 2: ID selector */
+#header { color: blue; }
+
+/* Prioritas 3: Class selector */
+.container { color: green; }
+
+/* Prioritas 4: Element selector */
+div { color: black; }
+```
 
 ### Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design, serta jelaskan mengapa!
+Responsive design memastikan bahwa sebuah website dapat menyesuaikan tampilannya secara otomatis sesuai dengan ukuran layar perangkat yang digunakan, baik itu komputer desktop, tablet, atau smartphone. 
+
+Konsep ini menjadi sangat penting karena kebanyakan orang sekarang mengakses internet melalui ponsel mereka. Jika website tidak nyaman dilihat di ponsel, besar kemungkinan pengguna akan langsung meninggalkan website tersebut.
+
+Selain untuk kenyamanan pengguna, responsive design juga berpengaruh pada peringkat website di mesin pencari seperti Google. Google sendiri secara terbuka menyatakan bahwa mereka memberikan nilai lebih tinggi pada website yang ramah untuk perangkat mobile. Jadi, jika ingin website kita mudah ditemukan orang, responsive design adalah syarat utamanya.
+
+Contoh nyata penerapan responsive design yang baik bisa kita lihat di Twitter dan Netflix. Coba buka Twitter di komputer dan bandingkan dengan tampilannya di ponsel. Di ponsel, menu navigasinya disederhanakan, tata letak menyesuaikan, tapi semua fitur tetap mudah diakses. Netflix juga melakukan hal serupa dengan menata ulang tata letak film dan series berdasarkan ukuran layar.
+
+Sebaliknya, contoh website yang tidak responsive adalah aren cs ui
+
+
+Dengan menerapkan responsive design, kita tidak hanya membuat website lebih mudah diakses, tetapi juga menghemat waktu dan biaya pengembangan karena cukup satu versi website yang bisa beradaptasi dengan semua perangkat, alih-alih harus membuat versi terpisah untuk desktop dan mobile.
+
+
 
 ### Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
 
+`Padding` adalah ruang di antara `content` dan `border`. Sedangkan `Border` adalah garis yang mengelilingi padding + content. Lalu, `Margin` adalah ruang di luar border yang memisahkan elemen satu sama lain. 
+
+Misal kita memiliki suatu div  dengan `class="card"`. Kita dapat membuat:
+```
+.card {
+box-sizing: border-box; 
+width: 300px;
+padding: 16px; /* ruang di dalam */
+border: 1px solid #ccc; /* garis pembatas */
+margin: 12px auto; /* jarak luar */
+
+}
+```
+
 ### Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+Flexbox:
+Merupakan One-dimensional layout (satu arah : horizontal atau vertical). Flexbox digunakan untuk menyusun elemen dalam satu baris atau kolom. Penggunaan ini ideal untuk elemen-elemen seperti Navigation bars, card layouts, form elements, dan lainnya.
+
+Sedangkan `Grid Layout` merupakan Two-dimensional layout (baris dan kolom sekaligus). Grid digunakan untuk layout kompleks dengan struktur grid. Grid ini akan sangat berguna untuk digunakan pada Page layouts, dashboard, atau gallery.
 
 ### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
 

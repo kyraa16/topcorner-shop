@@ -2,89 +2,130 @@
 {% load static %}
 
 {% block meta %}
-<title>{{ product.title }} - Top Corner</title>
+  <title>{{ product.name }} - Top Corner</title>
 {% endblock meta %}
 
 {% block content %}
 <div class="bg-gray-50 w-full min-h-screen">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        <!-- Back Navigation -->
-        <div class="mb-6">
-            <a href="{% url 'main:show_main' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-                ← Back to Home
-            </a>
-        </div>
-        
-        <!-- Article -->
-        <article class="bg-white rounded-lg border border-gray-200 overflow-hidden">
-            
-            <!-- Header -->
-            <div class="p-6 sm:p-8">
-                <div class="flex flex-wrap items-center gap-2 mb-4">
-                    <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-green-600 text-white">
-                        {{ product.get_category_display }}
-                    </span>
-                    {% if product.is_featured %}
-                        <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-yellow-100 text-yellow-800">
-                            Featured
-                        </span>
-                    {% endif %}
-                </div>
-                
-                <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight mb-4">
-                    {{ product.name }}
-                </h1>
-                
-                <div class="flex flex-wrap items-center text-sm text-gray-500 gap-4">
-                    <time datetime="{{ product.created_at|date:'c' }}">
-                        {{ product.created_at|date:"M j, Y g:i A" }}
-                    </time>
-                    <span>{{ product.rating }} rating</span>
-                </div>
-            </div>
-
-            <!-- Featured Image -->
-            {% if product.thumbnail %}
-                <div class="px-6 sm:px-8">
-                    <img src="{{ product.thumbnail }}" 
-                         alt="{{ product.name }}" 
-                         class="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-lg">
-                </div>
-            {% endif %}
-
-            <!-- Content -->
-            <div class="p-6 sm:p-8">
-                <div class="prose prose-lg max-w-none">
-                    <div class="text-gray-700 leading-relaxed whitespace-pre-line text-base sm:text-lg">
-                        <p>Harga   Rp {{ product.price }}</p>
-                        <p>Stok   {{ product.stock }}</p>
-                        <p>Brand   {{ product.brand }}</p>
-                        <p>Rating  {{ product.rating }}</p>
-
-                        {{ product.description}}
-                    </div>
-                </div>
-            </div>
-
-            <!-- Author Info -->
-            <div class="border-t border-gray-200 p-6 sm:p-8 bg-gray-50">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <div class="font-medium text-gray-900">
-                            {% if product.user %}
-                                <p>Shop: {{ product.user.username }}</p>
-                            {% else %}
-                                <p>Shop: Anonymous</p>
-                            {% endif %}
-                        </div>
-                        <p class="text-sm text-gray-500">Shop</p>
-                    </div>
-                </div>
-            </div>
-        </article>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Back -->
+    <div class="mb-6">
+      <a href="{% url 'main:show_main' %}"
+         class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-600 text-white font-medium hover:bg-cyan-700 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Back
+      </a>
     </div>
+
+    <!-- Layout -->
+    <article class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 sm:p-8 lg:p-12 items-start">
+        <!-- LEFT: Image -->
+        <div class="w-full">
+          <div class="rounded-xlflex items-center justify-center">
+            {% if product.thumbnail %}
+              <img src="{{ product.thumbnail }}" alt="{{ product.name }}" class="max-w-full w-full h-auto object-contain rounded-lg" />
+            {% else %}
+              <div class="w-full h-80 bg-gray-200 rounded-lg"></div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- RIGHT: Details -->
+        <div class="w-full">
+          <!-- Category + Featured -->
+          <div class="flex items-center gap-3 mb-4 flex-wrap">
+            <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-green-600 text-white">
+              {{ product.get_category_display }}
+            </span>
+            {% if product.is_featured %}
+              <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-yellow-100 text-yellow-800">
+                Featured
+              </span>
+            {% endif %}
+          </div>
+
+          <!-- Title & Brand -->
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">
+            {{ product.name }}
+          </h1>
+          {% if product.brand %}
+            <div class="text-sm text-gray-600 mb-6">
+              {{ product.brand }}
+            </div>
+          {% endif %}
+
+          <!-- Price -->
+          <div class="text-3xl sm:text-4xl font-bold text-rose-600 mb-6">
+            Rp {{ product.price }}
+          </div>
+
+          <!-- Description -->
+          {% if product.description %}
+            <div class="text-gray-600 mb-6 prose max-w-none">
+              {{ product.description|linebreaksbr }}
+            </div>
+          {% endif %}
+
+          <!-- Divider -->
+          <hr class="border-t border-gray-200 my-6">
+
+          <!-- Meta info -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center mb-6">
+            <div class="flex items-center gap-2 text-sm text-gray-700">
+              <span class="font-medium text-gray-900">Rating</span>
+              <span class="flex items-center gap-1 text-yellow-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.175c.969 0 1.371 1.24.588 1.81l-3.383 2.46a1 1 0 00-.364 1.118l1.287 3.966c.3.922-.755 1.688-1.54 1.118l-3.383-2.46a1 1 0 00-1.176 0l-3.383 2.46c-.784.57-1.838-.196-1.539-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.05 9.394c-.783-.57-.38-1.81.588-1.81h4.175a1 1 0 00.95-.69l1.286-3.967z"/>
+                </svg>
+                <span class="font-medium text-gray-900">{{ product.rating|default:"0.0" }}</span>
+              </span>
+            </div>
+
+            <div class="text-sm text-gray-700">
+              <span class="font-medium text-gray-900">Date</span>
+              <div class="text-gray-500 text-sm">{{ product.created_at|date:"M j, Y" }}</div>
+            </div>
+
+            <div>
+              <div class="text-sm text-gray-700 mb-2"><span class="font-medium text-gray-900">Seller</span></div>
+              <div class="text-sm text-gray-500">
+                {% if product.user %}{{ product.user.username }}{% else %}Anonymous{% endif %}
+              </div>
+            </div>
+          </div>
+
+          <!-- Stock -->
+          <div class="mb-6">
+            <div class="flex items-center gap-4">
+              <div class="text-sm text-gray-600">Stock</div>
+              <div class="inline-flex items-center justify-center px-5 py-2 bg-gray-100 rounded-full text-gray-900 font-medium">
+                {{ product.stock|default:"0" }}
+              </div>
+            </div>
+          </div>
+
+          <hr class="border-t border-gray-200 my-6">
+
+          <!-- Actions -->
+          <div class="flex flex-col sm:flex-row items-center gap-4">
+            <a
+               class="w-full sm:w-auto flex-1 text-center bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-full px-8 py-3 transition">
+              Buy Now
+            </a>
+            <form method="post" action="" class="w-full sm:w-auto flex-1">
+              {% csrf_token %}
+              <button type="submit" class="w-full bg-cyan-100 hover:bg-cyan-200 text-gray-800 font-medium rounded-full px-8 py-3 transition">
+                Add to Cart
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </article>
+  </div>
 </div>
 {% endblock content %}
-
-
