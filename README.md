@@ -212,15 +212,20 @@ Responsive design memastikan bahwa sebuah website dapat menyesuaikan tampilannya
 
 Berikut adalah contoh website yang telah menerapkan responsive design:
 https://www.netflix.com/id-en/
+[Netflix Desktop View]
+<img width="2846" height="1461" alt="Screenshot 2025-10-01 103152" src="https://github.com/user-attachments/assets/88626bab-7fbe-4e05-b273-43ed5d56b817" />
 
-[Netfli Dektop]
-[Netflix Mobile]
+[Netflix Mobile View]
+<img width="938" height="1209" alt="Screenshot 2025-10-01 103546" src="https://github.com/user-attachments/assets/a0420496-c34f-44d5-97e5-a70f2d73cc95" />
 
 Bandingkan dengan website Aren:
 https://aren.cs.ui.ac.id/
 
-[Aren Desktop]
-[Aren Mobile]
+[Aren Desktop View]
+<img width="2879" height="1104" alt="Screenshot 2025-09-29 143257" src="https://github.com/user-attachments/assets/6b6cf966-7701-4948-8b1e-3c7bee43d533" />
+
+[Aren Mobile View]
+![aren-mobile](https://github.com/user-attachments/assets/705bfb43-f87f-4f46-9d6a-6886292dc0f4)
 
 Dapat dilihat bahwa pada website Netfilx, tampilan desktop dan mobile berbeda. Ukuran text dan background imagenya telah disesuaikan. Sedangkan pada aren, tampilannya tidak responsive. Jika dibuka pada mobile, tampilannya tetap tampilan desktop dan ini sangat mengurangi kenyamanan pengguna karena text terlalu kecil dan sulit menavigasikan website. 
 
