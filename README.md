@@ -223,10 +223,10 @@ Bandingkan dengan website Aren:
 https://aren.cs.ui.ac.id/
 
 [Aren Desktop View]
-<img width="1200" alt="Screenshot 2025-09-29 143257" src="https://github.com/user-attachments/assets/6b6cf966-7701-4948-8b1e-3c7bee43d533" />
+<img width="1200" alt="Screenshot 2025-09-29 143257" src="https://github.com/user-attachments/assets/689840b9-61d6-461a-b465-a01f58263fc1" />
 
 [Aren Mobile View]
-<img height="500" alt="Screenshot 2025-09-29 143257" src="https://github.com/user-attachments/assets/6d6421f1-15dc-45ae-b30b-6fe16f19b561" />
+<img height="500" alt="Screenshot 2025-09-29 143257" src="https://github.com/user-attachments/assets/a50959b6-ad14-4849-a348-a16d5195bf3d" />
 
 Dapat dilihat bahwa pada website Netfilx, tampilan desktop dan mobile berbeda. Ukuran text dan background imagenya telah disesuaikan. Sedangkan pada aren, tampilannya tidak responsive. Jika dibuka pada mobile, tampilannya tetap tampilan desktop dan ini sangat mengurangi kenyamanan pengguna karena text terlalu kecil dan sulit menavigasikan website. 
 
