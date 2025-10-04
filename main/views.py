@@ -1,5 +1,5 @@
 import datetime
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -65,8 +65,26 @@ def show_products_xml(request):
 # Function to return products in JSON Format
 def show_products_json(request):
     product_list = Product.objects.all()
-    json_data = serializers.serialize('json', product_list)
-    return HttpResponse(json_data, content_type='application/json') 
+    data = [
+        {   
+            'id': str(product.id),
+            'name': product.name,
+            'price': product.price,
+            'description': product.description,
+            'thumbnail': product.thumbnail,
+            'category': product.category,
+            'is_featured': product.is_featured,
+            'stock': product.stock,
+            'brand': product.brand,
+            'rating': product.rating,
+            'created_at': product.created_at.isoformat() if product.created_at else None,
+            'user_id': product.user_id,
+        } 
+        for product in product_list
+    ]
+    # json_data = serializers.serialize('json', product_list)
+    # return HttpResponse(json_data, content_type='application/json') 
+    return JsonResponse(data, safe=False)
 
 def show_product_xml_by_id(request, id):
     try:
