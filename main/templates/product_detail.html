@@ -19,16 +19,34 @@
       </a>
     </div>
 
+    <!-- Loading State -->
+    <div id="loading-state" class="bg-white rounded-lg border border-gray-200 p-12 text-center">
+        <svg class="animate-spin h-8 w-8 text-green-600 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+        </svg>
+        <p class="text-gray-600 mt-3">Loading product detail...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-state" class="bg-white rounded-lg border border-gray-200 p-12 text-center hidden">
+        <div class="w-16 h-16 mx-auto mb-4">
+            <div class="text-red-500 text-5xl">⚠️</div>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Failed to load</h3>
+        <p class="text-gray-500">Please try again later.</p>
+    </div>
+
     <!-- Layout -->
-    <article class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+    <article id="product-article" class="bg-white rounded-lg border border-gray-200 overflow-hidden">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 sm:p-8 lg:p-12 items-start">
         <!-- LEFT: Image -->
         <div class="w-full">
-          <div class="rounded-xlflex items-center justify-center">
+          <div id="featured-image-container" class="rounded-xlflex items-center justify-center">
             {% if product.thumbnail %}
-              <img src="{{ product.thumbnail }}" alt="{{ product.name }}" class="max-w-full w-full h-auto object-contain rounded-lg" />
+              <img id="featured-image" src="{{ product.thumbnail }}" alt="{{ product.name }}" class="max-w-full w-full h-auto object-contain rounded-lg" />
             {% else %}
-              <div class="w-full h-80 bg-gray-200 rounded-lg"></div>
+              <div id="featured-image" class="w-full h-80 bg-gray-200 rounded-lg"></div>
             {% endif %}
           </div>
         </div>
@@ -36,7 +54,7 @@
         <!-- RIGHT: Details -->
         <div class="w-full">
           <!-- Category + Featured -->
-          <div class="flex items-center gap-3 mb-4 flex-wrap">
+          <div  id="badges-container" class="flex items-center gap-3 mb-4 flex-wrap">
             <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-green-600 text-white">
               {{ product.get_category_display }}
             </span>
@@ -48,23 +66,23 @@
           </div>
 
           <!-- Title & Brand -->
-          <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">
+          <h1 id="product-title" class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">
             {{ product.name }}
           </h1>
           {% if product.brand %}
-            <div class="text-sm text-gray-600 mb-6">
+            <div id="product-brand" class="text-sm text-gray-600 mb-6">
               {{ product.brand }}
             </div>
           {% endif %}
 
           <!-- Price -->
-          <div class="text-3xl sm:text-4xl font-bold text-rose-600 mb-6">
+          <div id="product-price" class="text-3xl sm:text-4xl font-bold text-rose-600 mb-6">
             Rp {{ product.price }}
           </div>
 
           <!-- Description -->
           {% if product.description %}
-            <div class="text-gray-600 mb-6 prose max-w-none">
+            <div id="product-description" class="text-gray-600 mb-6 prose max-w-none">
               {{ product.description|linebreaksbr }}
             </div>
           {% endif %}
@@ -80,18 +98,18 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.175c.969 0 1.371 1.24.588 1.81l-3.383 2.46a1 1 0 00-.364 1.118l1.287 3.966c.3.922-.755 1.688-1.54 1.118l-3.383-2.46a1 1 0 00-1.176 0l-3.383 2.46c-.784.57-1.838-.196-1.539-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.05 9.394c-.783-.57-.38-1.81.588-1.81h4.175a1 1 0 00.95-.69l1.286-3.967z"/>
                 </svg>
-                <span class="font-medium text-gray-900">{{ product.rating|default:"0.0" }}</span>
+                <span id="product-rating" class="font-medium text-gray-900">{{ product.rating|default:"0.0" }}</span>
               </span>
             </div>
 
             <div class="text-sm text-gray-700">
               <span class="font-medium text-gray-900">Date</span>
-              <div class="text-gray-500 text-sm">{{ product.created_at|date:"M j, Y" }}</div>
+              <div id="product-date" class="text-gray-500 text-sm">{{ product.created_at|date:"M j, Y" }}</div>
             </div>
 
             <div>
               <div class="text-sm text-gray-700 mb-2"><span class="font-medium text-gray-900">Seller</span></div>
-              <div class="text-sm text-gray-500">
+              <div id="product-seller" class="text-sm text-gray-500">
                 {% if product.user %}{{ product.user.username }}{% else %}Anonymous{% endif %}
               </div>
             </div>
@@ -101,7 +119,7 @@
           <div class="mb-6">
             <div class="flex items-center gap-4">
               <div class="text-sm text-gray-600">Stock</div>
-              <div class="inline-flex items-center justify-center px-5 py-2 bg-gray-100 rounded-full text-gray-900 font-medium">
+              <div id="product-stock"  class="inline-flex items-center justify-center px-5 py-2 bg-gray-100 rounded-full text-gray-900 font-medium">
                 {{ product.stock|default:"0" }}
               </div>
             </div>
@@ -128,4 +146,154 @@
     </article>
   </div>
 </div>
+
+<script>
+// --- Configuration (uses server-rendered product id) ---
+const PRODUCT_ID = "{{ product.id }}";
+const PRODUCT_JSON_ENDPOINT = `{% url 'main:show_product_json_by_id' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', PRODUCT_ID);
+
+// DOM elements
+const loadingState = document.getElementById('loading-state');
+const errorState = document.getElementById('error-state');
+const articleContainer = document.getElementById('product-article');
+
+const badgesContainer = document.getElementById('badges-container');
+const titleEl = document.getElementById('product-title');
+const brandEl = document.getElementById('product-brand'); // may be null
+const priceEl = document.getElementById('product-price');
+const descEl = document.getElementById('product-description');
+const featuredImageContainer = document.getElementById('featured-image-container');
+const featuredImage = document.getElementById('featured-image');
+
+const ratingEl = document.getElementById('product-rating');
+const dateEl = document.getElementById('product-date');
+const sellerEl = document.getElementById('product-seller');
+const stockEl = document.getElementById('product-stock');
+
+function showState(state) {
+  // state: 'loading' | 'ready' | 'error'
+  loadingState.classList.toggle('hidden', state !== 'loading');
+  errorState.classList.toggle('hidden', state !== 'error');
+  articleContainer.classList.toggle('hidden', state !== 'ready');
+}
+
+// helper: safe set text
+function setTextIfExists(el, value) {
+  if (!el) return;
+  el.textContent = (value === null || value === undefined) ? '' : value;
+}
+
+// helper: set HTML (for description which may contain markup)
+function setHTMLIfExists(el, html) {
+  if (!el) return;
+  el.innerHTML = html || '';
+}
+
+// Convert ISO date to friendly string
+function formatDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+async function loadProductDetail() {
+  try {
+    showState('loading');
+
+    const resp = await fetch(PRODUCT_JSON_ENDPOINT, { headers: { 'Accept': 'application/json' } });
+    if (!resp.ok) throw new Error('Failed to fetch product detail');
+
+    const data = await resp.json();
+
+    // Populate fields (verify keys available in your JSON)
+    // title
+    setTextIfExists(titleEl, data.name || '');
+
+    // brand (optional)
+    if (brandEl) {
+      setTextIfExists(brandEl, data.brand || '');
+    }
+
+    // price
+    if (priceEl) {
+      setTextIfExists(priceEl, data.price != null ? `Rp ${data.price}` : '');
+    }
+
+    // description - keep line breaks
+    if (descEl) {
+      // Use simple escape + convert newlines to <br> if you expect plain text:
+      const safe = (data.description || '').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+      setHTMLIfExists(descEl, safe);
+    }
+
+    // badges: rebuild badgesContainer
+    if (badgesContainer) {
+      badgesContainer.innerHTML = '';
+      // category badge
+      if (data.category) {
+        const span = document.createElement('span');
+        span.className = 'inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-green-600 text-white';
+        span.textContent = data.category; // server-side can send readable label if you prefer
+        badgesContainer.appendChild(span);
+      }
+      // featured
+      if (data.is_featured) {
+        const f = document.createElement('span');
+        f.className = 'inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-yellow-100 text-yellow-800';
+        f.textContent = 'Featured';
+        badgesContainer.appendChild(f);
+      }
+    }
+
+    // image
+    if (featuredImage) {
+      if (data.thumbnail) {
+        // if featuredImage is <img>, set src; if it's a div, replace with img
+        if (featuredImage.tagName.toLowerCase() === 'img') {
+          featuredImage.src = data.thumbnail;
+          featuredImage.alt = data.name || '';
+        } else {
+          // replace inner placeholder with <img>
+          featuredImage.innerHTML = `<img id="featured-image" src="${data.thumbnail}" alt="${data.name||''}" class="max-w-full w-full h-auto object-contain rounded-lg" />`;
+        }
+        if (featuredImageContainer) featuredImageContainer.classList.remove('hidden');
+      } else {
+        // hide container or show placeholder
+        if (featuredImageContainer) featuredImageContainer.classList.remove('hidden');
+        if (featuredImage && featuredImage.tagName.toLowerCase() === 'img') {
+          featuredImage.src = '';
+          featuredImage.alt = '';
+        }
+      }
+    }
+
+    // rating
+    setTextIfExists(ratingEl, data.rating != null ? data.rating : '0.0');
+
+    // date
+    setTextIfExists(dateEl, data.created_at ? formatDate(data.created_at) : '');
+
+    // seller: note your JSON currently puts username in `user_id` field
+    if (sellerEl) {
+      const sellerName = data.user_id || data.user_username || '';
+      setTextIfExists(sellerEl, sellerName);
+    }
+
+    // stock
+    setTextIfExists(stockEl, data.stock != null ? data.stock : '0');
+
+    // done
+    showState('ready');
+  } catch (err) {
+    console.error('Product load error', err);
+    showState('error');
+  }
+}
+
+// init
+document.addEventListener('DOMContentLoaded', function () {
+  loadProductDetail();
+});
+</script>
+
 {% endblock content %}

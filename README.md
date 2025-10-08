@@ -261,3 +261,27 @@ Cara saya mengimplementasikan checklist yang ada, yaitu dengan:
 3. Terakhir saya melakukan styling terhadap seluruh page yang ada dengan menerapkan Tailwind CSS. Dimulai dari pembuatan `navbar`. Lalu saya juga membuat `global.css`, menambahkan beberapa image yang ingin sama tampilkan pada website saya, dan membuat favicon. Untuk design card product, saya membuat component card pada `card_product.html`. Implementasikan card product pada `main.html`. Saya juga membuat agar tampilan website responsive di berbagai ukuran perangkat. 
 
 </details>
+
+
+<details>
+<summary>Tugas 6: Javascript dan AJAX</summary>
+
+### Apa perbedaan antara synchronous request dan asynchronous request?
+Secara default, browser melakukan request secara synchronous. Misalnya ketika pengguna mengisi form dan menekan submit, browser mengirim request ke server dan menunggu respons penuh. Selama menunggu respon, halaman biasanya melakukan full page reload dan antarmuka terasa “terblokir” sampai server selesai memproses. Pengguna tidak bisa berinteraksi dengan konten yang lama sampai proses selesai atau halaman selesai dimuat.
+
+Sebaliknya, request asynchronous (salah satunya dengan AJAX) dibuat tanpa memaksa reload seluruh page. Dengan fetch atau `XMLHttpRequest`, JavaScript di browser mengirim permintaan di belakang. Ketika respons tiba, hanya sebagian DOM yang diubah. Hasilnya pengalaman pengguna jauh lebih responsif. Mereka bisa tetap melihat dan berinteraksi dengan halaman sementara operasi network berlangsung.
+
+### Bagaimana AJAX bekerja di Django (alur request–response)?
+Saat pengguna melakukan action di suatu page (misalnya klik tombol atau submit form melalui JavaScript), browser menjalankan request HTTP secara asinkron (menggunakan fetch/XMLHttpRequest) ke endpoint Django tanpa me-reload seluruh halaman. JavaScript biasanya mengirim data (JSON atau form-data) dan juga menyertakan token CSRF serta cookie session (dengan credentials: `same-origin`) agar server bisa memverifikasi identitas dan keaslian request. Di sisi Django, middleware (termasuk CSRF middleware dan autentikasi) memproses request, view mengeksekusi logika (mengembalikan JsonResponse untuk API/AJAX), lalu browser menerima response itu dan JavaScript mengubah bagian DOM yang perlu diperbarui, misalnya menampilkan pesan sukses atau memperbarui list, dan semua itu terjadi tanpa full page reload.
+
+### Apa keuntungan menggunakan AJAX dibandingkan render biasa di Django?
+AJAX membuat interaksi terasa jauh lebih cepat dan halus karena hanya bagian tertentu dari halaman yang diperbarui, bukan seluruh template. Cara ini menghemat bandwidth dan mengurangi waktu tunggu yang dirasakan pengguna. Dengan AJAX, kita bisa memberikan feedback instan (inline validation, loading spinner, partial updates) dan membuat aplikasi tetap interaktif sementara backend Django menjalankan logika dan validasi. Jadi, alur lebih responsif dan efisien dibanding render penuh tiap kali aksi kecil terjadi.
+
+### Bagaimana cara memastikan keamanan saat menggunakan AJAX untuk fitur Login dan Register di Django?
+Cara memastikan keamanan saat menggunakan AJAX adalah dengan selalu memvalidasi semua input di server (gunakan AuthenticationForm/UserCreationForm). Pastikan `CSRF protection` aktif. Ambil token CSRF dari cookie `csrftoken` dan kirim lewat header X-CSRFToken pada setiap POST/PUT/PATCH/DELETE AJAX request dan Django akan memverifikasinya. Gunakan HTTPS agar cookie dan data tidak disadap, set cookie flags (Secure, HttpOnly, SameSite), batasi percobaan login (rate-limiting / account lockout seperti django-axes), dan jangan pernah mengembalikan detail sensitif dalam error messages. Untuk API yang diakses lintas-origin, atur CORS dengan hati-hati dan pertimbangkan mekanisme autentikasi token yang aman bila cocok.
+
+### Bagaimana AJAX mempengaruhi pengalaman pengguna (User Experience) pada website?
+AJAX dapat meningkatkan User Experience dengan membuat aplikasi terasa lebih responsif. Pengguna tidak hilang arah saat menjalankan suatu action. Dengan AJAX juga dapat dilakukan inline validation dan mendapat feedback dari suatu action secara langsung, sehingg user tahu kesalahannya tanpa perlu refresh halaman. Interaksi user dan website terasa lebih cepat dan responsif dengan aksesibilitas yang lebih baik. 
+
+</details>
+

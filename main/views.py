@@ -13,6 +13,11 @@ from .forms import ProductForm
 from django.http import HttpResponse
 from django.core import serializers
 
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.utils.html import strip_tags
+from django.contrib.auth.models import User
+
 # Create your views here.
 @login_required(login_url='/login')
 def show_main(request):
@@ -96,11 +101,26 @@ def show_product_xml_by_id(request, id):
 
 def show_product_json_by_id(request, id):
     try:
-        product_item = Product.objects.filter(pk=id)
-        json_data = serializers.serialize('json', product_item)
-        return HttpResponse(json_data, content_type='application/json')
+        product_item = get_object_or_404(Product.objects.select_related('user'), pk=id)
+        data = {   
+            'id': str(product_item.id),
+            'name': product_item.name,
+            'price': product_item.price,
+            'description': product_item.description,
+            'thumbnail': product_item.thumbnail,
+            'category': product_item.category,
+            'is_featured': product_item.is_featured,
+            'stock': product_item.stock,
+            'brand': product_item.brand,
+            'rating': product_item.rating,
+            'created_at': product_item.created_at.isoformat() if product_item.created_at else None,
+            'user_id': product_item.user.username if product_item.user_id else None,
+            # return a clear key for username
+            'user_username': product_item.user.username if product_item.user else None,
+        } 
+        return JsonResponse(data)
     except Product.DoesNotExist:
-        return HttpResponse(status=404)
+        return JsonResponse({'detail': 'Not found'}, status=404)
     
 
 def register(request):
@@ -156,3 +176,207 @@ def delete_product(request, id):
     product.delete()
     return HttpResponseRedirect(reverse('main:show_main'))
 
+
+@csrf_exempt
+@require_POST
+@login_required(login_url="/login")
+def add_product_entry_ajax(request):
+    # Ambil data dari form
+    name = strip_tags(request.POST.get("name"))
+    price = strip_tags(request.POST.get("price"))
+    description = strip_tags(request.POST.get("description"))
+    category = strip_tags(request.POST.get("category"))
+    thumbnail = strip_tags(request.POST.get("thumbnail"))
+    is_featured = request.POST.get("is_featured", "false").lower() == "true"
+    stock = strip_tags(request.POST.get("stock"))
+    brand = strip_tags(request.POST.get("brand"))
+    rating = request.POST.get("rating") or 0
+    user = request.user if request.user.is_authenticated else None
+
+    new_product = Product(
+        name=name,
+        price=price,
+        description=description,
+        category=category,
+        thumbnail=thumbnail,
+        is_featured=is_featured,
+        stock=stock,
+        brand=brand,
+        rating=rating,
+        user=user,
+    )
+    new_product.save()
+
+    return HttpResponse(b"Product created successfully", status=201)
+
+@csrf_exempt
+@require_POST
+@login_required(login_url="/login")
+def edit_product_entry_ajax(request):
+    product_id = strip_tags(request.POST.get("id"))
+    product = get_object_or_404(Product, pk=product_id)
+
+    if request.user != product.user:
+        return HttpResponse(b"Unauthorized", status=401)
+    if product is None:
+        return HttpResponse(b"Product not found", status=404)
+
+    name = strip_tags(request.POST.get("name"))
+    price = strip_tags(request.POST.get("price"))
+    description = strip_tags(request.POST.get("description"))
+    category = strip_tags(request.POST.get("category"))
+    thumbnail = strip_tags(request.POST.get("thumbnail"))
+    is_featured = request.POST.get("is_featured", "false").lower() == "true"
+    stock = strip_tags(request.POST.get("stock"))
+    brand = strip_tags(request.POST.get("brand"))
+    rating = request.POST.get("rating", 0)
+
+    product.name = name
+    product.price = price
+    product.description = description
+    product.category = category
+    product.thumbnail = thumbnail
+    product.is_featured = is_featured
+    product.stock = stock
+    product.brand = brand
+    product.rating = rating
+
+    product.save()
+    return HttpResponse(b"Product updated successfully", status=200)
+
+
+@csrf_exempt
+@require_POST
+@login_required(login_url="/login")
+def delete_product_entry_ajax(request):
+    product_id = strip_tags(request.POST.get("id"))
+
+    if not product_id:
+        return HttpResponse(b"Product ID is required", status=400)
+
+    product = get_object_or_404(Product, pk=product_id)
+
+    if request.user != product.user:
+        return HttpResponse(b"Unauthorized", status=401)
+    if product is None:
+        return HttpResponse(b"Product not found", status=404)
+
+    product.delete()
+    return HttpResponse(b"Product deleted successfully", status=200)
+
+# @csrf_exempt
+@require_POST
+def register_ajax(request):
+    try:
+        username = strip_tags(request.POST.get("username"))
+        password = request.POST.get("password")
+        confirm_password = request.POST.get("confirm_password")
+
+        if not username or not password or not confirm_password:
+            return JsonResponse(
+                {"success": False, "message": "All fields are required"}, status=400
+            )
+
+        if password != confirm_password:
+            return JsonResponse(
+                {"success": False, "message": "Passwords do not match"}, status=400
+            )
+
+        if User.objects.filter(username=username).exists():
+            return JsonResponse(
+                {"success": False, "message": "Username already exists"}, status=400
+            )
+
+        form_data = {
+            "username": username,
+            "password": password,
+            "confirm_password": confirm_password,
+        }
+        form = UserCreationForm(form_data)
+
+        if form.is_valid():
+            form.save()
+            return JsonResponse(
+                {
+                    "success": True,
+                    "message": "Your account has been successfully created!",
+                    "redirect": reverse("main:login"),
+                },
+                status=201,
+            )
+        else:
+            errors = []
+            for field, field_errors in form.errors.items():
+                for error in field_errors:
+                    errors.append(f"{field}: {error}")
+
+            return JsonResponse(
+                {"success": False, "message": "; ".join(errors)}, status=400
+            )
+
+    except Exception:
+        return JsonResponse(
+            {"success": False, "message": "An error occurred during registration"},
+            status=500,
+        )
+
+
+# @csrf_exempt
+@require_POST
+def login_ajax(request):
+    try:
+        username = strip_tags(request.POST.get("username"))
+        password = request.POST.get("password")
+
+        if not username or not password:
+            return JsonResponse(
+                {"success": False, "message": "Username and password are required"},
+                status=400,
+            )
+
+        # Authenticate user
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            response = JsonResponse(
+                {
+                    "success": True,
+                    "message": "Login successful!",
+                    "redirect": reverse("main:show_main"),
+                    "user": {"id": user.id, "username": user.username},
+                }
+            )
+            response.set_cookie("last_login", str(datetime.datetime.now()))
+            return response
+        else:
+            return JsonResponse(
+                {"success": False, "message": "Invalid username or password"},
+                status=401,
+            )
+
+    except Exception:
+        return JsonResponse(
+            {"success": False, "message": "An error occurred during login"}, status=500
+        )
+
+
+# @csrf_exempt
+@require_POST
+def logout_ajax(request):
+    try:
+        logout(request)
+        response = JsonResponse(
+            {
+                "success": True,
+                "message": "Logout successful!",
+                "redirect": reverse("main:login"),
+            }
+        )
+        response.delete_cookie("last_login")
+        return response
+
+    except Exception:
+        return JsonResponse(
+            {"success": False, "message": "An error occurred during logout"}, status=500
+        )
