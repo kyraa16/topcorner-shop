@@ -269,15 +269,15 @@ def delete_product_entry_ajax(request):
 def register_ajax(request):
     try:
         username = strip_tags(request.POST.get("username"))
-        password = request.POST.get("password")
-        confirm_password = request.POST.get("confirm_password")
+        password1 = request.POST.get("password1")
+        password2 = request.POST.get("password2")
 
-        if not username or not password or not confirm_password:
+        if not username or not password1 or not password2:
             return JsonResponse(
                 {"success": False, "message": "All fields are required"}, status=400
             )
 
-        if password != confirm_password:
+        if password1 != password2:
             return JsonResponse(
                 {"success": False, "message": "Passwords do not match"}, status=400
             )
@@ -289,8 +289,8 @@ def register_ajax(request):
 
         form_data = {
             "username": username,
-            "password": password,
-            "confirm_password": confirm_password,
+            "password1": password1,
+            "password2": password2,
         }
         form = UserCreationForm(form_data)
 

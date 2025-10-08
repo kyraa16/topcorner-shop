@@ -39,47 +39,30 @@
         </div>
       {% endif %}
 
-      <form method="POST" action="" class="space-y-5">
+      <!-- add an errors container above the form -->
+      <div id="registerAjaxErrors" class="mb-6 hidden"></div>
+      
+      <form id="registerForm" method="POST" action="" class="space-y-5">
         {% csrf_token %}
-        
+        <!-- username -->
         <div>
           <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
-          <input 
-            id="username" 
-            name="username" 
-            type="text" 
-            required 
-            class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-cyan-500 transition duration-200" 
-            placeholder="Choose a username">
+          <input id="username" name="username" type="text" required class="..." placeholder="Choose a username">
         </div>
 
+        <!-- password1 -->
         <div>
           <label for="password1" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-          <input 
-            id="password1" 
-            name="password1" 
-            type="password" 
-            required 
-            class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-cyan-500 transition duration-200" 
-            placeholder="Create a password">
+          <input id="password1" name="password1" type="password" required class="..." placeholder="Create a password">
         </div>
 
+        <!-- password2 -->
         <div>
           <label for="password2" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
-          <input 
-            id="password2" 
-            name="password2" 
-            type="password" 
-            required 
-            class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-cyan-500 transition duration-200" 
-            placeholder="Confirm your password">
+          <input id="password2" name="password2" type="password" required class="..." placeholder="Confirm your password">
         </div>
 
-        <button 
-          type="submit" 
-          class="w-full bg-cyan-600 text-white font-medium py-3 px-4 rounded hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition duration-200">
-          Create Account
-        </button>
+        <button type="submit" id="registerSubmit" class="w-full bg-cyan-600 py-2 rounded-lg text-white ...">Create Account</button>
       </form>
 
       <!-- Messages Display -->
@@ -115,4 +98,106 @@
     </div>
   </div>
 </div>
+
+
+<script>
+  // Async register handler (paste/replace function body)
+  async function handleRegister(event) {
+    event.preventDefault();
+
+    const form = document.getElementById('registerForm');
+    const registerBtn = document.getElementById('registerSubmit'); // matches your template
+    const errorsDiv = document.getElementById('registerAjaxErrors');
+
+    // helper read CSRF token from the hidden input produced by {% csrf_token %}
+    function getCsrfToken() {
+      const inpt = form.querySelector('input[name="csrfmiddlewaretoken"]');
+      return inpt ? inpt.value : null;
+    }
+
+    function showErrorsHtml(html) {
+      errorsDiv.classList.remove('hidden');
+      errorsDiv.innerHTML = html;
+    }
+    function clearErrors() {
+      errorsDiv.classList.add('hidden');
+      errorsDiv.innerHTML = '';
+    }
+
+    // UI: disable button and show loading text
+    const originalText = registerBtn?.textContent || 'Create Account';
+    if (registerBtn) {
+      registerBtn.disabled = true;
+      registerBtn.textContent = 'Creating Account...';
+    }
+    clearErrors();
+
+    try {
+      // Build FormData and ensure canonical keys
+      const fd = new FormData(form);
+      fd.set('password1', document.getElementById('password1')?.value || '');
+      fd.set('password2', document.getElementById('password2')?.value || '');
+
+      const csrftoken = getCsrfToken();
+
+      const resp = await fetch("{% url 'main:register_ajax' %}", {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrftoken,
+          'X-Requested-With': 'XMLHttpRequest',
+          'Accept': 'application/json'
+        },
+        body: fd
+      });
+
+      // try to parse JSON even on non-200 so we can show messages
+      const data = await resp.json().catch(() => null);
+
+      if (resp.ok && data && data.success) {
+        // success: show toast (if exists) and redirect
+        if (typeof showToast === 'function') showToast('Success', data.message || 'Registered', 'success');
+        const redirectUrl = data?.redirect || "{% url 'main:login' %}";
+        setTimeout(() => window.location.href = redirectUrl, 700);
+        return;
+      }
+
+      // handle server errors
+      const message = data && data.message ? data.message : `Registration failed (${resp.status})`;
+
+      if (data && data.errors) {
+        // render field-level errors
+        let html = '';
+        for (const [field, list] of Object.entries(data.errors)) {
+          list.forEach(err => {
+            html += `<div class="px-4 py-3 rounded text-sm border bg-red-50 border-red-200 text-red-700 mb-2"><strong>${field}:</strong> ${err}</div>`;
+          });
+        }
+        showErrorsHtml(html);
+      } else {
+        showErrorsHtml(`<div class="px-4 py-3 rounded text-sm border bg-red-50 border-red-200 text-red-700">${message}</div>`);
+      }
+
+      if (typeof showToast === 'function') showToast('Error', message, 'error');
+
+    } catch (err) {
+      console.error('Register AJAX error:', err);
+      showErrorsHtml('<div class="px-4 py-3 rounded text-sm border bg-red-50 border-red-200 text-red-700">An unexpected error occurred. Please try again.</div>');
+      if (typeof showToast === 'function') showToast('Error', 'Unexpected error', 'error');
+    } finally {
+      // restore button
+      if (registerBtn) {
+        registerBtn.disabled = false;
+        registerBtn.textContent = originalText;
+      }
+    }
+  }
+
+  // attach handler (ensure only attached once)
+  const regForm = document.getElementById('registerForm');
+  if (regForm) {
+    regForm.removeEventListener('submit', handleRegister); // defensive
+    regForm.addEventListener('submit', handleRegister);
+  }
+</script>
+
 {% endblock content %}

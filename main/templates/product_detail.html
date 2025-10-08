@@ -273,7 +273,6 @@ async function loadProductDetail() {
     // date
     setTextIfExists(dateEl, data.created_at ? formatDate(data.created_at) : '');
 
-    // seller: note your JSON currently puts username in `user_id` field
     if (sellerEl) {
       const sellerName = data.user_id || data.user_username || '';
       setTextIfExists(sellerEl, sellerName);

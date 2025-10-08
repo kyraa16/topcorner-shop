@@ -83,57 +83,160 @@
 </div>
 
 <script>
-  function showModal() {
-      const modal = document.getElementById('crudModal');
-      const modalContent = document.getElementById('crudModalContent');
+/* ---------- Config ---------- */
+const CSRF_TOKEN = "{{ csrf_token }}";
+const ADD_URL = "{% url 'main:add_product_entry_ajax' %}";
+const EDIT_URL = "{% url 'main:edit_product_ajax' %}";
+const DELETE_URL = "{% url 'main:delete_product_ajax' %}";
 
-      // Tampilkan modal
-      modal.classList.remove('hidden');
-      setTimeout(() => {
-        modalContent.classList.remove('opacity-0', 'scale-95');
-        modalContent.classList.add('opacity-100', 'scale-100');
-      }, 50);
+/* ---------- Modal controls ---------- */
+const crudModal = document.getElementById('crudModal');
+const crudModalContent = document.getElementById('crudModalContent');
+const crudModalTitle = document.getElementById('crudModalTitle');
+const crudModalSubtitle = document.getElementById('crudModalSubtitle');
+const productForm = document.getElementById('productForm');
+const modalSubmit = document.getElementById('modalSubmit');
+const productIdInput = document.getElementById('product_id');
+
+let modalMode = 'create'; // 'create' or 'edit'
+
+function showModal(mode = 'create', product = null) {
+  modalMode = mode;
+  if (mode === 'create') {
+    crudModalTitle.textContent = 'Create Product';
+    crudModalSubtitle.textContent = 'Add a new product to your shop';
+    modalSubmit.textContent = 'Save product';
+    productForm.reset();
+    productIdInput.value = '';
+  } else {
+    crudModalTitle.textContent = 'Edit Product';
+    crudModalSubtitle.textContent = 'Update product details';
+    modalSubmit.textContent = 'Update product';
+    // Fill fields
+    productIdInput.value = product.id || '';
+    document.getElementById('name').value = product.name || '';
+    document.getElementById('price').value = product.price || '';
+    document.getElementById('stock').value = product.stock || 0;
+    document.getElementById('category').value = product.category || '';
+    document.getElementById('brand').value = product.brand || '';
+    document.getElementById('thumbnail').value = product.thumbnail || '';
+    document.getElementById('description').value = product.description || '';
+    document.getElementById('is_featured').checked = !!product.is_featured;
   }
 
-  function hideModal() {
-      const modal = document.getElementById('crudModal');
-      const modalContent = document.getElementById('crudModalContent');
+  crudModal.classList.remove('hidden');
+  setTimeout(() => {
+    crudModalContent.classList.remove('opacity-0', 'scale-95');
+    crudModalContent.classList.add('opacity-100', 'scale-100');
+  }, 50);
+}
 
-      // Tambahkan efek transisi sebelum menghilangkan modal
-      modalContent.classList.remove('opacity-100', 'scale-100');
-      modalContent.classList.add('opacity-0', 'scale-95');
+function hideModal() {
+  crudModalContent.classList.remove('opacity-100', 'scale-100');
+  crudModalContent.classList.add('opacity-0', 'scale-95');
+  setTimeout(() => {
+    crudModal.classList.add('hidden');
+  }, 150);
+}
 
-      setTimeout(() => {
-        modal.classList.add('hidden');
-      }, 150);
+/* ---------- AJAX actions ---------- */
+async function createProductAjax(formData) {
+  const resp = await fetch(ADD_URL, {
+    method: 'POST',
+    headers: { 'X-CSRFToken': CSRF_TOKEN },
+    body: formData
+  });
+  return resp;
+}
+
+async function editProductAjax(formData) {
+  const resp = await fetch(EDIT_URL, {
+    method: 'POST',
+    headers: { 'X-CSRFToken': CSRF_TOKEN },
+    body: formData
+  });
+  return resp;
+}
+
+async function deleteProductAjax(productId) {
+  const fd = new FormData();
+  fd.append('id', productId);
+  const resp = await fetch(DELETE_URL, {
+    method: 'POST',
+    headers: { 'X-CSRFToken': CSRF_TOKEN },
+    body: fd
+  });
+  return resp;
+}
+
+/* ---------- Form submit handler: route based on modalMode ---------- */
+productForm.addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  const fd = new FormData(productForm);
+
+  try {
+    let response;
+    if (modalMode === 'create') {
+      response = await createProductAjax(fd);
+    } else { // edit
+      // ensure id included
+      if (!fd.get('product_id') && productIdInput.value) {
+        fd.append('id', productIdInput.value);
+      } else {
+        // conform to view expecting 'id' key
+        fd.set('id', fd.get('product_id') || productIdInput.value || '');
+      }
+      response = await editProductAjax(fd);
+    }
+
+    if (response.ok) {
+      // success
+      hideModal();
+      productForm.reset();
+
+      // fire custom event to refresh product list
+      document.dispatchEvent(new CustomEvent('productAdded'));
+      // showToast if you implemented to notify user
+      if (typeof showToast === 'function') showToast('Success', modalMode === 'create' ? 'Product created' : 'Product updated', 'success');
+    } else {
+      // parse server message if available
+      let text = await response.text();
+      if (!text) text = 'Server returned an error';
+      if (typeof showToast === 'function') showToast('Error', text, 'error');
+      console.error('AJAX error:', response.status, text);
+    }
+  } catch (err) {
+    console.error('Network or unexpected error:', err);
+    if (typeof showToast === 'function') showToast('Error', 'Unexpected error occurred', 'error');
   }
+});
 
-  async function addProductEntry() {
-    await fetch("{% url 'main:add_product_entry_ajax' %}", {
-      method: "POST",
-      body: new FormData(document.querySelector('#productForm')),
-      headers: {
-            'X-CSRFToken': '{{ csrf_token }}'
-        }
-    })
+/* ---------- Delete helper (confirm + ajax) ---------- */
+async function confirmAndDelete(productId) {
+  const ok = confirm('Are you sure you want to delete this product?');
+  if (!ok) return;
 
-    document.getElementById("productForm").reset();
-    hideModal();
-      
-    // Show toast notification
-    showToast('News added successfully!', '', 'success');
-
-    // Dispatch custom event to notify main.html about new data
-    document.dispatchEvent(new CustomEvent('productAdded'));
-
-    return false;
+  try {
+    const response = await deleteProductAjax(productId);
+    if (response.ok) {
+      document.dispatchEvent(new CustomEvent('productAdded'));
+      if (typeof showToast === 'function') showToast('Deleted', 'Product deleted successfully', 'success');
+    } else {
+      const text = await response.text();
+      if (typeof showToast === 'function') showToast('Error', text || 'Failed to delete', 'error');
+      console.error('Delete failed', response.status, text);
+    }
+  } catch (err) {
+    console.error('Delete error', err);
+    if (typeof showToast === 'function') showToast('Error', 'Unexpected delete error', 'error');
   }
+}
 
-
-
-document.getElementById("productForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    addProductEntry();
-})
+/* Expose functions to global so main page can call them */
+window.showModalForCreate = function () { showModal('create'); };
+window.showModalForEdit = function (productObj) { showModal('edit', productObj); };
+window.confirmAndDelete = confirmAndDelete;
 </script>
+
 

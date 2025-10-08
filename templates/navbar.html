@@ -1,4 +1,5 @@
 {% load static %}
+{% include 'modal.html' %}
 
 <nav class="fixed top-0 left-0 w-full bg-white border-b border-gray-200 shadow-sm z-50">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
@@ -12,9 +13,9 @@
           <a href="/" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
             Home
           </a>
-          <a href="{% url 'main:create_product' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+          <button onclick="showModal()"  class=" text-gray-600 hover:text-gray-900 font-medium transition-colors">
             Create Product
-          </a>
+          </button>
         </div>
         
         <!-- Desktop User Section -->
@@ -24,9 +25,11 @@
               <div class="text-sm font-medium text-gray-900">{{ name|default:user.username }}</div>
               <div class="text-xs text-gray-500">{{ npm|default:"User" }} - {{ class|default:"Class" }}</div>
             </div>
-            <a href="{% url 'main:logout' %}" class="text-red-600 hover:text-red-700 font-medium transition-colors">
+            <button id="logoutBtnDesktop"
+                    type="button"
+                    class="text-red-600 hover:text-red-700 font-medium transition-colors">
               Logout
-            </a>
+            </button>
             
           {% else %}
             <a href="{% url 'main:login' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
@@ -59,9 +62,9 @@
           <a href="/" class="block text-gray-600 hover:text-gray-900 font-medium py-3 transition-colors">
             Home
           </a>
-          <a href="{% url 'main:create_product' %}" class="block text-gray-600 hover:text-gray-900 font-medium py-3 transition-colors">
+          <button button onclick="showModal()" class="block text-gray-600 hover:text-gray-900 font-medium py-3 transition-colors">
             Create Product
-          </a>
+          </button>
         </div>
         
         <!-- Mobile User Section -->
@@ -71,9 +74,11 @@
               <div class="font-medium text-gray-900">{{ name|default:user.username }}</div>
               <div class="text-sm text-gray-500">{{ npm|default:"User" }} - {{ class|default:"Class" }}</div>
             </div>
-            <a href="{% url 'main:logout' %}" class="block text-red-600 hover:text-red-700 font-medium py-3 transition-colors">
+            <button id="logoutBtnMobile"
+                    type="button"
+                    class="block text-red-600 hover:text-red-700 font-medium py-3 transition-colors w-full text-left">
               Logout
-            </a>
+            </button>
           {% else %}
             <div class="space-y-3">
               <a href="{% url 'main:login' %}" class="block text-gray-600 hover:text-gray-900 font-medium py-3 transition-colors">
@@ -87,9 +92,84 @@
         </div>
       </div>
     </div>
+
+    <!-- Hidden form to render csrf token into the page (helps guarantee the token is available) -->
+    <form id="logoutCsrfForm" style="display:none;">{% csrf_token %}</form>
+
+
     <script>
       const btn = document.querySelector("button.mobile-menu-button");
       const menu = document.querySelector(".mobile-menu");
+
+      // helper: read CSRF token from the hidden form input or from cookie
+      function getCsrfToken() {
+        // try hidden form input first
+        const tokenInput = document.querySelector('#logoutCsrfForm input[name="csrfmiddlewaretoken"]');
+        if (tokenInput) return tokenInput.value;
+
+        // fallback: read cookie (standard Django cookie name)
+        const name = 'csrftoken';
+        const cookies = document.cookie ? document.cookie.split('; ') : [];
+        for (let i = 0; i < cookies.length; i++) {
+          const parts = cookies[i].split('=');
+          if (parts[0] === name) return decodeURIComponent(parts.slice(1).join('='));
+        }
+        return null;
+      }
+
+      async function performLogout() {
+        const csrftoken = getCsrfToken();
+        const LOGOUT_AJAX_URL = "{% url 'main:logout_ajax' %}";
+        const FALLBACK_URL = "{% url 'main:logout' %}"; // in case AJAX fails use regular logout
+
+        try {
+          const resp = await fetch(LOGOUT_AJAX_URL, {
+            method: 'POST',
+            headers: {
+              'X-CSRFToken': csrftoken,
+              'X-Requested-With': 'XMLHttpRequest',
+              'Accept': 'application/json'
+            }
+          });
+
+          // try to parse JSON if server returned JSON
+          let data = null;
+          try { data = await resp.json(); } catch (e) { /* ignore parse errors */ }
+
+          if (resp.ok && data && data.success) {
+            if (typeof showToast === 'function') showToast('Success', data.message || 'Logged out', 'success');
+            // redirect to server-provided redirect or fallback to login page
+            const redirectUrl = data.redirect || "{% url 'main:login' %}";
+            setTimeout(() => window.location.href = redirectUrl, 600);
+          } else {
+            // not OK - show message if available, else fallback to full logout
+            const message = (data && data.message) ? data.message : `Logout failed (${resp.status})`;
+            if (typeof showToast === 'function') showToast('Error', message, 'error');
+
+            // Fallback: if server didn't provide redirect, navigate to normal logout URL
+            setTimeout(() => window.location.href = FALLBACK_URL, 900);
+          }
+        } catch (err) {
+          console.error('Logout AJAX error', err);
+          if (typeof showToast === 'function') showToast('Error', 'Unexpected error during logout', 'error');
+          // final fallback
+          setTimeout(() => window.location.href = FALLBACK_URL, 600);
+        }
+      }
+
+      // attach to both desktop and mobile buttons
+      document.getElementById('logoutBtnDesktop')?.addEventListener('click', function (e) {
+        e.preventDefault();
+        performLogout();
+      });
+
+      document.getElementById('logoutBtnMobile')?.addEventListener('click', function (e) {
+        e.preventDefault();
+        // close mobile menu if open (optional UX)
+        const mobileMenu = document.querySelector('.mobile-menu');
+        if (mobileMenu && !mobileMenu.classList.contains('hidden')) mobileMenu.classList.add('hidden');
+        performLogout();
+      });
     
       btn.addEventListener("click", () => {
         menu.classList.toggle("hidden");
