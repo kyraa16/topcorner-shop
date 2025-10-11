@@ -209,7 +209,6 @@ def add_product_entry_ajax(request):
 
     return HttpResponse(b"Product created successfully", status=201)
 
-@csrf_exempt
 @require_POST
 @login_required(login_url="/login")
 def edit_product_entry_ajax(request):

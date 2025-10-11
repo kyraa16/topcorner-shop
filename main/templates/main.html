@@ -183,8 +183,8 @@ function buildProductCardElement(productItem) {
 
   // Links (detail)
   const detailLink = `/product/${productItem.id}/`;
-  const editLink = `/product/${productItem.id}/edit`; // kept only for fallback, we will use JS edit button
-  const deleteLink = `/product/${productItem.id}/delete`; // fallback
+  const editLink = `/product/${productItem.id}/edit`; 
+  const deleteLink = `/product/${productItem.id}/delete`;
 
   // sanitize fields
   const name = DOMPurify.sanitize(productItem.name || '');
