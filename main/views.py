@@ -18,6 +18,9 @@ from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
 from django.contrib.auth.models import User
 
+import json
+import requests
+
 # Create your views here.
 @login_required(login_url='/login')
 def show_main(request):
@@ -379,3 +382,157 @@ def logout_ajax(request):
         return JsonResponse(
             {"success": False, "message": "An error occurred during logout"}, status=500
         )
+    
+
+def proxy_image(request):
+    image_url = request.GET.get('url')
+    if not image_url:
+        return HttpResponse('No URL provided', status=400)
+    
+    try:
+        # Fetch image from external source
+        response = requests.get(image_url, timeout=10)
+        response.raise_for_status()
+        
+        # Return the image with proper content type
+        return HttpResponse(
+            response.content,
+            content_type=response.headers.get('Content-Type', 'image/jpeg')
+        )
+    except requests.RequestException as e:
+        return HttpResponse(f'Error fetching image: {str(e)}', status=500)
+
+
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            
+            # Strip HTML tags untuk keamanan
+            name = strip_tags(data.get("name", ""))
+            description = strip_tags(data.get("description", ""))
+            category = strip_tags(data.get("category", ""))
+            brand = strip_tags(data.get("brand", ""))
+            
+            # Validasi field required
+            if not name or not description:
+                return JsonResponse({
+                    "status": "error",
+                    "message": "Name and description are required"
+                }, status=400)
+            
+            # Get data lainnya
+            price = data.get("price", 0)
+            thumbnail = data.get("thumbnail", "")
+            is_featured = data.get("is_featured", False)
+            stock = data.get("stock", 0)
+            rating = data.get("rating", 0)
+            
+            # Validasi dan konversi tipe data
+            try:
+                price = int(price)
+                stock = int(stock)
+                rating = float(rating) 
+            except (ValueError, TypeError):
+                return JsonResponse({
+                    "status": "error",
+                    "message": "Invalid data type for price, stock, or rating"
+                }, status=400)
+            
+            # Validasi nilai
+            if price < 0:
+                return JsonResponse({
+                    "status": "error",
+                    "message": "Price cannot be negative"
+                }, status=400)
+            
+            if stock < 0:
+                return JsonResponse({
+                    "status": "error",
+                    "message": "Stock cannot be negative"
+                }, status=400)
+            
+            if rating < 0 or rating > 5:
+                return JsonResponse({
+                    "status": "error",
+                    "message": "Rating must be between 0 and 5"
+                }, status=400)
+            
+            # Validasi category
+            valid_categories = ['jersey', 'shoes', 'ball', 'accessories', 'equipment']
+            if category and category not in valid_categories:
+                return JsonResponse({
+                    "status": "error",
+                    "message": f"Invalid category. Must be one of: {', '.join(valid_categories)}"
+                }, status=400)
+            
+            user = request.user
+            
+            # Buat produk baru
+            new_product = Product(
+                name=name,
+                description=description,
+                price=price,
+                category=category if category else 'accessories',  # default category
+                brand=brand if brand else "",
+                thumbnail=thumbnail if thumbnail else None,
+                is_featured=is_featured,
+                stock=stock,
+                rating=rating,
+                user=user
+            )
+            new_product.save()
+            
+            return JsonResponse({
+                "status": "success",
+                "message": "Product created successfully",
+                "product": {
+                    "id": str(new_product.id), 
+                    "name": new_product.name,
+                    "price": new_product.price,
+                    "category": new_product.category,
+                    "brand": new_product.brand,
+                    "stock": new_product.stock,
+                    "rating": new_product.rating,
+                    "is_featured": new_product.is_featured,
+                }
+            }, status=201)
+            
+        except json.JSONDecodeError:
+            return JsonResponse({
+                "status": "error",
+                "message": "Invalid JSON format"
+            }, status=400)
+        except Exception as e:
+            return JsonResponse({
+                "status": "error",
+                "message": f"An error occurred: {str(e)}"
+            }, status=500)
+    else:
+        return JsonResponse({
+            "status": "error",
+            "message": "Only POST method is allowed"
+        }, status=405)
+    
+@login_required(login_url='/login')
+def show_my_products_json(request):
+    product_list = Product.objects.filter(user=request.user)  # Filter by user
+    data = [
+        {   
+            'id': str(product.id),
+            'name': product.name,
+            'price': product.price,
+            'description': product.description,
+            'thumbnail': product.thumbnail,
+            'category': product.category,
+            'is_featured': product.is_featured,
+            'stock': product.stock,
+            'brand': product.brand,
+            'rating': product.rating,
+            'created_at': product.created_at.isoformat() if product.created_at else None,
+            'user_id': product.user_id,
+        } 
+        for product in product_list
+    ]
+    return JsonResponse(data, safe=False)

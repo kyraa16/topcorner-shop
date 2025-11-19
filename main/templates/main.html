@@ -60,6 +60,11 @@
           <button id="filter-my" class="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-md font-medium transition-colors hover:bg-cyan-500 hover:text-white h-full">
             My Products
           </button>
+
+          <button id="sort-asc" class="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-md font-medium transition-colors hover:bg-cyan-500 hover:text-white h-full">
+            Sort
+          </button>
+
         </div>
 
         <!-- User Info -->
@@ -403,6 +408,10 @@ function initializeProductPage() {
   const refreshBtn = document.getElementById('refresh-products');
   if (refreshBtn) refreshBtn.addEventListener('click', handleRefreshProducts);
 
+  const sortAscButton = document.getElementById('sort-asc');
+
+  if(sortAscButton) sortAscButton.addEventListener('click', sortProductAsc);
+
   fetchProductFromServer();
 }
 
@@ -426,7 +435,13 @@ document.addEventListener("click", function (event) {
 });
 
 
-// Add event listener to detect new news
+function sortProductAsc() {
+  allProductData.sort((a, b) => a.price - b.price);
+  filterAndDisplayProducts();
+}
+
+
+// Add event listener to detect new product
 document.addEventListener('productAdded', function() {
     // Refresh data without page reload
     fetchProductFromServer();
